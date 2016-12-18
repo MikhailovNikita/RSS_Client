@@ -120,4 +120,8 @@ public class AsyncRSSLoader extends AsyncTask<String, ArrayList<RSSItem>, ArrayL
 
         delegate.processFinish(arrayList);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/leshabranch
