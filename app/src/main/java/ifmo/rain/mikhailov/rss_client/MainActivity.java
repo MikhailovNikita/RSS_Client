@@ -1,7 +1,6 @@
 package ifmo.rain.mikhailov.rss_client;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -25,7 +24,7 @@ import ifmo.rain.mikhailov.rss_client.fragments.FragmentPolitics;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
-    public FragmentPolitics fPolitcs;
+    public FragmentPolitics fPolitics;
     public FragmentMain fMain;
 
     @Override
@@ -52,7 +51,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        fPolitcs = new FragmentPolitics();
+        fPolitics = new FragmentPolitics();
         fMain = new FragmentMain();
     }
 
@@ -94,12 +93,13 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        android.support.v4.app.FragmentTransaction Ftrans = getSupportFragmentManager().beginTransaction();
+        android.support.v4.app.FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction();
+
 
         if (id == R.id.nav_Main) {
-            Ftrans.replace(R.id.content_main, fMain);
-        } else if (id == R.id.nav_politis) {
-            Ftrans.replace(R.id.content_main, fPolitcs);
+            fTrans.replace(R.id.content_main, fMain);
+        } else if (id == R.id.nav_politics) {
+            fTrans.replace(R.id.content_main, fPolitics);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-        } Ftrans.commit();
+        } fTrans.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

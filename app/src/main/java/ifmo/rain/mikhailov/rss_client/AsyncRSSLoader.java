@@ -16,7 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-import java.util.zip.DataFormatException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -28,7 +27,7 @@ import static ifmo.rain.mikhailov.rss_client.Constants.DEBUG_TAG_XML;
  * RSS_Client
  */
 
-//TODO: rename class
+
 public class AsyncRSSLoader extends AsyncTask<String, ArrayList<RSSItem>, ArrayList<RSSItem>> {
 
     public interface AsyncResponse {
@@ -62,7 +61,6 @@ public class AsyncRSSLoader extends AsyncTask<String, ArrayList<RSSItem>, ArrayL
                 doc.getDocumentElement().normalize();
                 Log.d(DEBUG_TAG_XML, "Root element: " + doc.getDocumentElement().getNodeName());
                 NodeList nodeList = doc.getElementsByTagName("item");
-                Log.d(DEBUG_TAG_XML, "LET'S ****ING PARSE THAT");
                 Log.d(DEBUG_TAG_XML, "God save us");
                 SimpleDateFormat dateFormat1 = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
                 SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
@@ -86,7 +84,7 @@ public class AsyncRSSLoader extends AsyncTask<String, ArrayList<RSSItem>, ArrayL
                         try {
                             publishDate = dateFormat2.parse(pubDate);
                         } catch (ParseException ex) {
-                            //TODO: add notification that data is not correct
+                            //TODO: add notification that date is not correct
                             publishDate = dateFormat2.parse("01 Jan 0000 00:00:00 +0000");
                         }
                     }

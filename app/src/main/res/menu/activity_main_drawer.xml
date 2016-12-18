@@ -4,10 +4,10 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_Main"
-            android:icon="@drawable/ic_action_name"
+            android:icon="@drawable/ic_menu_camera"
             android:title="@string/main_news" />
         <item
-            android:id="@+id/nav_politis"
+            android:id="@+id/nav_politics"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/politics" />
         <item

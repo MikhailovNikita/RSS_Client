@@ -12,7 +12,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class RSSActivity extends AppCompatActivity {
 
@@ -20,7 +19,7 @@ public class RSSActivity extends AppCompatActivity {
     String feedUrl;
     ListView rssListView = null;
     ArrayList<RSSItem> rssItems = new ArrayList<>();
-    ArrayAdapter<RSSItem> aa = null;
+    ArrayAdapter<RSSItem> arrayAdapter = null;
 
 
     @Override
@@ -70,20 +69,12 @@ public class RSSActivity extends AppCompatActivity {
             }
         });
 
-        //adapters are used to populate list. they take a collection,
-        //a view (in our example R.layout.list_item
-        aa = new ArrayAdapter<>(RSSActivity.this, R.layout.list_item, rssItems);
-        //here we bind array adapter to the list
-        rssListView.setAdapter(aa);
+
+        arrayAdapter = new ArrayAdapter<>(RSSActivity.this, R.layout.list_item, rssItems);
+        rssListView.setAdapter(arrayAdapter);
     }
 
     private void refreshRSSList() {
-
-        final ArrayList<RSSItem> newItems = new ArrayList<>();
-
-
-        newItems.add(new RSSItem("title","description GIGALUL", new Date(), "link"));
-        newItems.add(new RSSItem("title","description MEGALUL", new Date(), "link"));
 
         AsyncRSSLoader asyncLoader = new AsyncRSSLoader(new AsyncRSSLoader.AsyncResponse() {
             @Override
@@ -92,7 +83,7 @@ public class RSSActivity extends AppCompatActivity {
                 rssItems.clear();
                 rssItems.addAll(list);
 
-                aa.notifyDataSetChanged();
+                arrayAdapter.notifyDataSetChanged();
             }
         });
 

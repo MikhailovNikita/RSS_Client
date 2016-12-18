@@ -20,12 +20,13 @@ public class RSSItemDisplayer extends Activity {
 
         RSSItem selectedRssItem = RSSActivity.selectedRssItem;
         //Bundle extras = getIntent().getExtras();
+
         TextView titleView = (TextView) findViewById(R.id.titleTextView);
         TextView contentView = (TextView) findViewById(R.id.contentTextView);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd - hh:mm:ss", Locale.getDefault());
-        String title = "\n" + selectedRssItem.getTitle() + "  ( "
-                + sdf.format(selectedRssItem.getPubDate()) + " )\n\n";
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM 'at' HH:mm", Locale.ENGLISH);
+        String title = "\n" + selectedRssItem.getTitle() + " "
+                + sdf.format(selectedRssItem.getPubDate()) + " \n\n";
 
         String content = selectedRssItem.getDescription() + "\n"
                 + selectedRssItem.getLink();

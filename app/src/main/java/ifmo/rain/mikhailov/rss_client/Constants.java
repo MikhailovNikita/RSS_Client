@@ -5,6 +5,6 @@ package ifmo.rain.mikhailov.rss_client;
  * RSS_Client
  */
 
-public class Constants {
-   public static final String DEBUG_TAG_XML = "XML parsing";
+class Constants {
+   static final String DEBUG_TAG_XML = "XML parsing";
 }
