@@ -1,14 +1,27 @@
 package ifmo.rain.mikhailov.rss_client.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import ifmo.rain.mikhailov.rss_client.*;
+import java.util.ArrayList;
+import java.util.Date;
 
+import ifmo.rain.mikhailov.rss_client.AsyncRSSLoader;
 import ifmo.rain.mikhailov.rss_client.R;
+import ifmo.rain.mikhailov.rss_client.RSSItem;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +41,12 @@ public class FragmentMain extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    public static RSSItem selectedRssItem = null;
+    String feedUrl;
+    ListView rssListView = null;
+    ArrayList<RSSItem> rssItems = new ArrayList<>();
+    public ArrayAdapter<RSSItem> aa;
+
     private OnFragmentInteractionListener mListener;
 
     public FragmentMain() {
@@ -43,6 +62,8 @@ public class FragmentMain extends Fragment {
      * @return A new instance of fragment FragmnentMain.
      */
     // TODO: Rename and change types and number of parameters
+
+
 
     public static FragmentMain newInstance(String param1, String param2) {
         FragmentMain fragment = new FragmentMain();
@@ -66,8 +87,85 @@ public class FragmentMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragmnent_main, container, false);
+
+        View view = inflater.inflate(R.layout.fragmnent_main, container, false);
+        View viewV = inflater.inflate(R.layout.list_item, container, false);
+
+        final TextView rssURL = (TextView) view.findViewById(R.id.rssURL);
+        Button fetchRss = (Button) view.findViewById(R.id.fetchRss);
+        Button settingsButton = (Button) view.findViewById(R.id.settings);
+
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent("ifmo.rain.mikhailov.Settings");
+                startActivity(intent);
+            }
+        });
+
+        fetchRss.setOnClickListener(new View.OnClickListener() {
+            //TODO: add progress bar
+            @Override
+            public void onClick(View v) {
+                feedUrl = rssURL.getText().toString();
+                Log.d("BUTTON", feedUrl);
+                Log.d("BUTTON", "Let's load some news");
+                refreshRSSList();
+
+            }
+        });
+
+
+        rssListView = (ListView) view.findViewById(R.id.rssListView);
+
+        rssListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
+            public void onItemClick(AdapterView<?> av, View view, int index,
+                                    long arg3) {
+                selectedRssItem = rssItems.get(index);
+
+
+                Intent intent = new Intent(
+                        "ifmo.rain.mikhailov.displayRssItem");
+                startActivity(intent);
+            }
+        });
+
+        //adapters are used to populate list. they take a collection,
+        //a view (in our example R.layout.list_item
+
+        aa = new ArrayAdapter<RSSItem>(view.getContext(), R.layout.list_item, rssItems);
+        //here we bind array adapter to the list
+        rssListView.setAdapter(aa);
+        return view;
     }
+
+    private void refreshRSSList() {
+
+        final ArrayList<RSSItem> newItems = new ArrayList<>();
+
+
+        newItems.add(new RSSItem("title","description GIGALUL", new Date(), "link"));
+        newItems.add(new RSSItem("title","description MEGALUL", new Date(), "link"));
+
+        AsyncRSSLoader asyncLoader = new AsyncRSSLoader(new AsyncRSSLoader.AsyncResponse() {
+            @Override
+            public void processFinish(ArrayList<RSSItem> list) {
+                Log.d("GACHI", list.size() + " ");
+                rssItems.clear();
+                rssItems.addAll(list);
+
+                aa.notifyDataSetChanged();
+            }
+        });
+
+
+        //TODO: add progress bar
+        asyncLoader.execute(feedUrl);
+
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
