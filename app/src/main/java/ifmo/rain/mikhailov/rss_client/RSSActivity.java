@@ -72,7 +72,7 @@ public class RSSActivity extends AppCompatActivity {
 
         //adapters are used to populate list. they take a collection,
         //a view (in our example R.layout.list_item
-        aa = new ArrayAdapter<>(this, R.layout.list_item, rssItems);
+        aa = new ArrayAdapter<>(RSSActivity.this, R.layout.list_item, rssItems);
         //here we bind array adapter to the list
         rssListView.setAdapter(aa);
     }

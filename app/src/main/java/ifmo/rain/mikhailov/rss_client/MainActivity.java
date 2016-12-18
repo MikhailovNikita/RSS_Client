@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_Main) {
             Ftrans.replace(R.id.content_main, fMain);
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_politis) {
             Ftrans.replace(R.id.content_main, fPolitcs);
         } else if (id == R.id.nav_slideshow) {
 

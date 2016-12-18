@@ -4,32 +4,32 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_Main"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Главные Новости" />
+            android:icon="@drawable/ic_action_name"
+            android:title="@string/main_news" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_politis"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Политика" />
+            android:title="@string/politics" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Спорт" />
+            android:title="@string/sport" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
             android:title="" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/communicate">
         <menu>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="@string/share" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="@string/send" />
         </menu>
     </item>
 
