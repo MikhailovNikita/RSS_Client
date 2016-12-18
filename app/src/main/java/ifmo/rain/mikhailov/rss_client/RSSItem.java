@@ -3,7 +3,6 @@ package ifmo.rain.mikhailov.rss_client;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -15,8 +14,6 @@ import java.util.Locale;
 public class RSSItem {
     private String title;
     private String description;
-
-    //Date ot String???
     private Date pubDate;
     private String link;
 
@@ -46,7 +43,7 @@ public class RSSItem {
     @Override
     public String toString() {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM 'at' HH:mm:ss", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM 'at' HH:mm", Locale.ENGLISH);
 
         String result = getTitle() + "  \n" + sdf.format(this.getPubDate()) + " ";
         return result;

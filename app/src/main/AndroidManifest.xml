@@ -16,9 +16,17 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".PrefActivity">
+            <intent-filter>
+                <action android:name="ifmo.rain.mikhailov.Settings" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".RSSItemDisplayer" android:label="Display Rss Item">
             <intent-filter>
-                <action android:name="rembo.network.urss.displayRssItem" />
+                <action android:name="ifmo.rain.mikhailov.displayRssItem" />
                 <category android:name="android.intent.category.DEFAULT"></category>
             </intent-filter>
         </activity>

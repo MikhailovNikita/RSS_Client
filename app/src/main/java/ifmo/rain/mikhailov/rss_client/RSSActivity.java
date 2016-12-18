@@ -30,7 +30,15 @@ public class RSSActivity extends AppCompatActivity {
 
         final TextView rssURL = (TextView) findViewById(R.id.rssURL);
         Button fetchRss = (Button) findViewById(R.id.fetchRss);
+        Button settingsButton = (Button) findViewById(R.id.settings);
 
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent("ifmo.rain.mikhailov.Settings");
+                startActivity(intent);
+            }
+        });
 
         fetchRss.setOnClickListener(new View.OnClickListener() {
             //TODO: add progress bar
@@ -56,7 +64,7 @@ public class RSSActivity extends AppCompatActivity {
 
 
                 Intent intent = new Intent(
-                        "rembo.network.urss.displayRssItem");
+                        "ifmo.rain.mikhailov.displayRssItem");
                 startActivity(intent);
             }
         });
@@ -76,7 +84,7 @@ public class RSSActivity extends AppCompatActivity {
         newItems.add(new RSSItem("title","description GIGALUL", new Date(), "link"));
         newItems.add(new RSSItem("title","description MEGALUL", new Date(), "link"));
 
-        MyAsyncTask asyncTask = new MyAsyncTask(new MyAsyncTask.AsyncResponse() {
+        AsyncRSSLoader asyncLoader = new AsyncRSSLoader(new AsyncRSSLoader.AsyncResponse() {
             @Override
             public void processFinish(ArrayList<RSSItem> list) {
                 Log.d("GACHI", list.size() + " ");
@@ -89,7 +97,7 @@ public class RSSActivity extends AppCompatActivity {
 
 
         //TODO: add progress bar and find a way to wait until asynctask will be finished
-        asyncTask.execute(feedUrl);
+        asyncLoader.execute(feedUrl);
 
     }
 }
