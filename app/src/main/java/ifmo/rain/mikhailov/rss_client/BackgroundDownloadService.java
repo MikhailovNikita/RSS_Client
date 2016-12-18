@@ -45,7 +45,7 @@ public class BackgroundDownloadService extends Service {
             });
 
 
-            asyncRSSLoader.execute("https://news.yandex.ru/law.rss");
+            asyncRSSLoader.execute("https://news.yandex.ru/sport.rss");
 
         }
     }
