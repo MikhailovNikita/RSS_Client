@@ -10,4 +10,78 @@
         android:summary="Address for notifications"
         android:title="Address">
     </EditTextPreference>
+    <PreferenceScreen
+        android:key="text_color"
+        android:title="Change your rss"
+        android:summary="set rss for different categories">
+
+        <EditTextPreference
+            android:key="mainRss"
+            android:title="Edit main rss"
+            android:summary="Set new rss for main news"
+            android:defaultValue="https://news.yandex.ru/index.rss"
+            android:dialogTitle="Enter your rss" />
+        <EditTextPreference
+            android:key="politicRss"
+            android:title="Edit politic rss"
+            android:summary="Set new rss for politic news"
+            android:defaultValue="https://news.yandex.ru/politics.rss"
+            android:dialogTitle="Enter your rss" />
+        <EditTextPreference
+            android:key="societyRss"
+            android:title="Edit society rss"
+            android:summary="Set new rss for society news"
+            android:defaultValue="https://news.yandex.ru/society.rss"
+            android:dialogTitle="Enter your rss" />
+        <EditTextPreference
+            android:key="businessRss"
+            android:title="Edit business rss"
+            android:summary="Set new rss for business news"
+            android:defaultValue="https://news.yandex.ru/business.rss"
+            android:dialogTitle="Enter your rss" />
+        <EditTextPreference
+            android:key="worldRss"
+            android:title="Edit world rss"
+            android:summary="Set new rss for world news"
+            android:defaultValue="https://news.yandex.ru/world.rss"
+            android:dialogTitle="Enter your rss" />
+        <EditTextPreference
+            android:key="sportRss"
+            android:title="Edit sport rss"
+            android:summary="Set new rss for sport news"
+            android:defaultValue="https://news.yandex.ru/sport.rss"
+            android:dialogTitle="Enter your rss" />
+        <EditTextPreference
+            android:key="incidentRss"
+            android:title="Edit incident rss"
+            android:summary="Set new rss for incident news"
+            android:defaultValue="https://news.yandex.ru/incident.rss"
+            android:dialogTitle="Enter your rss" />
+        <EditTextPreference
+            android:key="cultureRss"
+            android:title="Edit culture rss"
+            android:summary="Set new rss for culture news"
+            android:defaultValue="https://news.yandex.ru/culture.rss"
+            android:dialogTitle="Enter your rss" />
+        <EditTextPreference
+            android:key="scienceRss"
+            android:title="Edit science rss"
+            android:summary="Set new rss for science news"
+            android:defaultValue="https://news.yandex.ru/science.rss"
+            android:dialogTitle="Enter your rss" />
+        <EditTextPreference
+            android:key="computersRss"
+            android:title="Edit computers rss"
+            android:summary="Set new rss for computers news"
+            android:defaultValue="https://news.yandex.ru/computers.rss"
+            android:dialogTitle="Enter your rss" />
+        <EditTextPreference
+            android:key="autoRss"
+            android:title="Edit auto rss"
+            android:summary="Set new rss for auto news"
+            android:defaultValue="https://news.yandex.ru/auto.rss"
+            android:dialogTitle="Enter your rss" />
+    </PreferenceScreen>
+
+
 </PreferenceScreen>

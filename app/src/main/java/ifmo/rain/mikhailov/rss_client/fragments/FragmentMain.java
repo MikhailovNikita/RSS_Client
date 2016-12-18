@@ -2,8 +2,10 @@ package ifmo.rain.mikhailov.rss_client.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,7 +47,8 @@ public class FragmentMain extends Fragment {
     String feedUrl;
     ListView rssListView = null;
     ArrayList<RSSItem> rssItems = new ArrayList<>();
-    public ArrayAdapter<RSSItem> aa;
+    ArrayAdapter<RSSItem> aa;
+    public String nameOfNews;
 
     private OnFragmentInteractionListener mListener;
 
@@ -89,38 +92,15 @@ public class FragmentMain extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragmnent_main, container, false);
-        View viewV = inflater.inflate(R.layout.list_item, container, false);
-
+        SharedPreferences prefs=
+                PreferenceManager.getDefaultSharedPreferences(getActivity());
+        feedUrl = prefs.getString(nameOfNews, "").toString();
+        refreshRSSList();
+        Log.d("BUTTON", feedUrl);
+        Log.d("BUTTON", "Let's load some news");
         final TextView rssURL = (TextView) view.findViewById(R.id.rssURL);
-        Button fetchRss = (Button) view.findViewById(R.id.fetchRss);
-        Button settingsButton = (Button) view.findViewById(R.id.settings);
-
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent("ifmo.rain.mikhailov.Settings");
-                startActivity(intent);
-            }
-        });
-
-        fetchRss.setOnClickListener(new View.OnClickListener() {
-            //TODO: add progress bar
-            @Override
-            public void onClick(View v) {
-                feedUrl = rssURL.getText().toString();
-                Log.d("BUTTON", feedUrl);
-                Log.d("BUTTON", "Let's load some news");
-                refreshRSSList();
-
-            }
-        });
-
-
         rssListView = (ListView) view.findViewById(R.id.rssListView);
-
         rssListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-
             public void onItemClick(AdapterView<?> av, View view, int index,
                                     long arg3) {
                 selectedRssItem = rssItems.get(index);
@@ -131,9 +111,6 @@ public class FragmentMain extends Fragment {
                 startActivity(intent);
             }
         });
-
-        //adapters are used to populate list. they take a collection,
-        //a view (in our example R.layout.list_item
 
         aa = new ArrayAdapter<RSSItem>(view.getContext(), R.layout.list_item, rssItems);
         //here we bind array adapter to the list

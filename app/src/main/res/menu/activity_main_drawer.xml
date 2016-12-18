@@ -11,13 +11,45 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/politics" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_society"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/society" />
+        <item
+            android:id="@+id/nav_world"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/world" />
+        <item
+            android:id="@+id/nav_business"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/business" />
+        <item
+            android:id="@+id/nav_sport"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/sport" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_incident"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/incident" />
+        <item
+            android:id="@+id/nav_culture"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/culture" />
+        <item
+            android:id="@+id/nav_science"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/science" />
+        <item
+            android:id="@+id/nav_computers"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/computers" />
+        <item
+            android:id="@+id/nav_auto"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/auto" />
+        <item
+            android:id="@+id/nav_settings"
             android:icon="@drawable/ic_menu_manage"
-            android:title="" />
+            android:title="@string/Настройки" />
     </group>
 
     <item android:title="@string/communicate">

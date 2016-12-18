@@ -11,35 +11,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ifmo.rain.mikhailov.rss_client.RSSActivity">
 
-    <TextView
-        android:id="@+id/label"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Enter RSS URL:"
-        />
-
-    <EditText
-        android:id="@+id/rssURL"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/editbox_background"
-        android:text="https://news.yandex.ru/internet.rss"
-        />
-
-    <Button
-        android:id="@+id/fetchRss"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dip"
-        android:text="Fetch Rss" />
-
-    <Button
-        android:id="@+id/settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dip"
-        android:text="Settings" />
-
     <ListView
         android:id="@+id/rssListView"
         android:layout_width="fill_parent"
