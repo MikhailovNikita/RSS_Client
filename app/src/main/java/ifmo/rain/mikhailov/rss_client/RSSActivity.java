@@ -28,6 +28,7 @@ public class RSSActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rss);
 
+
         final TextView rssURL = (TextView) findViewById(R.id.rssURL);
         Button fetchRss = (Button) findViewById(R.id.fetchRss);
         Button settingsButton = (Button) findViewById(R.id.settings);
@@ -96,7 +97,7 @@ public class RSSActivity extends AppCompatActivity {
         });
 
 
-        //TODO: add progress bar and find a way to wait until asynctask will be finished
+        //TODO: add progress bar
         asyncLoader.execute(feedUrl);
 
     }
