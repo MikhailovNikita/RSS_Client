@@ -11,8 +11,12 @@ import org.w3c.dom.NodeList;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
+import java.util.zip.DataFormatException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -27,7 +31,7 @@ import static ifmo.rain.mikhailov.rss_client.Constants.DEBUG_TAG_XML;
 //TODO: rename class
 public class MyAsyncTask extends AsyncTask<String, ArrayList<RSSItem>, ArrayList<RSSItem>> {
 
-    public interface AsyncResponse{
+    public interface AsyncResponse {
         void processFinish(ArrayList<RSSItem> list);
     }
 
@@ -60,24 +64,39 @@ public class MyAsyncTask extends AsyncTask<String, ArrayList<RSSItem>, ArrayList
                 NodeList nodeList = doc.getElementsByTagName("item");
                 Log.d(DEBUG_TAG_XML, "LET'S ****ING PARSE THAT");
                 Log.d(DEBUG_TAG_XML, "God save us");
+                SimpleDateFormat dateFormat1 = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
+                SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
 
-                for(int i = 0; i < nodeList.getLength(); i++){
+
+                for (int i = 0; i < nodeList.getLength(); i++) {
                     Node node = nodeList.item(i);
 
                     Element nodeElement = (Element) node;
-
 
 
                     String title = nodeElement.getElementsByTagName("title").item(0).getTextContent();
                     String link = nodeElement.getElementsByTagName("link").item(0).getTextContent();
                     String description = nodeElement.getElementsByTagName("description").item(0).getTextContent();
                     String pubDate = nodeElement.getElementsByTagName("pubDate").item(0).getTextContent();
+                    Date publishDate;
+
+                    try {
+                        publishDate = dateFormat1.parse(pubDate);
+                    } catch (ParseException e) {
+                        try {
+                            publishDate = dateFormat2.parse(pubDate);
+                        } catch (ParseException ex) {
+                            //TODO: add notification that data is not correct
+                            publishDate = dateFormat2.parse("01 Jan 0000 00:00:00 +0000");
+                        }
+                    }
+
 
                     Log.d(DEBUG_TAG_XML, title);
                     Log.d(DEBUG_TAG_XML, pubDate);
 
                     //TODO: fix date issue
-                    RSSItem rssItem = new RSSItem(title,description,new Date(), link);
+                    RSSItem rssItem = new RSSItem(title, description, publishDate, link);
 
 
                     rssItems.add(rssItem);
@@ -87,7 +106,6 @@ public class MyAsyncTask extends AsyncTask<String, ArrayList<RSSItem>, ArrayList
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
 
         return rssItems;

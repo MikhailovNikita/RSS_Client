@@ -37,10 +37,10 @@ public class RSSActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 feedUrl = rssURL.getText().toString();
-
-                aa.notifyDataSetChanged();
+                Log.d("BUTTON", feedUrl);
                 Log.d("BUTTON", "Let's load some news");
                 refreshRSSList();
+
             }
         });
 
@@ -66,8 +66,6 @@ public class RSSActivity extends AppCompatActivity {
         aa = new ArrayAdapter<>(this, R.layout.list_item, rssItems);
         //here we bind array adapter to the list
         rssListView.setAdapter(aa);
-        feedUrl = rssURL.getText().toString();
-        refreshRSSList();
     }
 
     private void refreshRSSList() {

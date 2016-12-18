@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /**
  * Created by Михайлов Никита on 17.12.2016.
@@ -19,10 +20,10 @@ public class RSSItemDisplayer extends Activity {
 
         RSSItem selectedRssItem = RSSActivity.selectedRssItem;
         //Bundle extras = getIntent().getExtras();
-        TextView titleTv = (TextView) findViewById(R.id.titleTextView);
-        TextView contentTv = (TextView) findViewById(R.id.contentTextView);
+        TextView titleView = (TextView) findViewById(R.id.titleTextView);
+        TextView contentView = (TextView) findViewById(R.id.contentTextView);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd - hh:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd - hh:mm:ss", Locale.getDefault());
         String title = "\n" + selectedRssItem.getTitle() + "  ( "
                 + sdf.format(selectedRssItem.getPubDate()) + " )\n\n";
 
@@ -30,7 +31,7 @@ public class RSSItemDisplayer extends Activity {
                 + selectedRssItem.getLink();
 
 
-        titleTv.setText(title);
-        contentTv.setText(content);
+        titleView.setText(title);
+        contentView.setText(content);
     }
 }

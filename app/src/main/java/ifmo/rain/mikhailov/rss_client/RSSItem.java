@@ -15,6 +15,8 @@ import java.util.Locale;
 public class RSSItem {
     private String title;
     private String description;
+
+    //Date ot String???
     private Date pubDate;
     private String link;
 
@@ -44,9 +46,9 @@ public class RSSItem {
     @Override
     public String toString() {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd - hh:mm:ss", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM 'at' HH:mm:ss", Locale.ENGLISH);
 
-        String result = getTitle() + "  ( " + sdf.format(this.getPubDate()) + " )";
+        String result = getTitle() + "  \n" + sdf.format(this.getPubDate()) + " ";
         return result;
     }
 
