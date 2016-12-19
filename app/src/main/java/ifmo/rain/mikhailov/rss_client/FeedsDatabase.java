@@ -57,7 +57,7 @@ public class FeedsDatabase extends SQLiteOpenHelper {
         cv.put(RSS_PUB_DATE, item.getPubDate().toString());
         cv.put(RSS_NEWS_LINK, item.getLink());
 
-
+        //comment
         sqLiteDatabase.insert(TABLE_NAME, null, cv);
     }
 
