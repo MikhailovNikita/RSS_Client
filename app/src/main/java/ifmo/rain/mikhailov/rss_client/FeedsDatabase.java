@@ -9,8 +9,11 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.FileNotFoundException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import static ifmo.rain.mikhailov.rss_client.DatabaseContract.RSS_CATEGORY;
 import static ifmo.rain.mikhailov.rss_client.DatabaseContract.RSS_DESCRIPTION;
@@ -76,7 +79,7 @@ public class FeedsDatabase extends SQLiteOpenHelper {
         sqLiteDatabase.insert(TABLE_NAME, null, cv);
     }
 
-    public void get(SQLiteDatabase sqLiteDatabase, String sourceLink) throws FileNotFoundException {
+    public ArrayList<RSSItem> get(SQLiteDatabase sqLiteDatabase, String sourceLink) throws FileNotFoundException {
         Cursor cursor = sqLiteDatabase.query(TABLE_NAME, new String[]{RSS_TITLE, RSS_DESCRIPTION, RSS_PUB_DATE, RSS_NEWS_LINK},
                 RSS_SOURCE_LINK + " = ?", new String[]{sourceLink}, null, null, RSS_PUB_DATE);
 
@@ -86,16 +89,34 @@ public class FeedsDatabase extends SQLiteOpenHelper {
             if (cursor != null && cursor.moveToFirst()) {
                 ArrayList<RSSItem> rssItems = new ArrayList<>();
 
+
+                SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+
+
                 while (true) {
                     RSSItem rssItem;
 
                     int pos = 0;
-                    rssItem = new RSSItem(cursor.getString(pos++), cursor.getString(pos++),
-                            new Date(), cursor.getString(++pos));
+
+                    String f1 = cursor.getString(pos++);
+                    String f2 = cursor.getString(pos++);
+                    String f3 = cursor.getString(pos++);
+                    String f4 = cursor.getString(pos++);
+                    Date date;
+                    try{
+                        date = sdf.parse(f3);
+                    }catch(ParseException e){
+                        date = new Date();
+                    }
+
+
+                    rssItem = new RSSItem(f1,f2,date,f4);
 
                     rssItems.add(rssItem);
                     if (!cursor.moveToNext()) break;
                 }
+
+                return rssItems;
 
             }
 
