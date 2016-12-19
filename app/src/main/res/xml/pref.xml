@@ -10,7 +10,7 @@
         android:summary="Address for notifications"
         android:title="Address">
     </EditTextPreference>
-    <PreferenceScreen
+        <PreferenceScreen
         android:key="text_color"
         android:title="Change your rss"
         android:summary="set rss for different categories">

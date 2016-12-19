@@ -88,6 +88,7 @@ public class FragmentMain extends Fragment {
         SharedPreferences prefs=
                 PreferenceManager.getDefaultSharedPreferences(getActivity());
         feedUrl = prefs.getString(nameOfNews, "").toString();
+
         refreshRSSList();
         Log.d("BUTTON", feedUrl);
         Log.d("BUTTON", "Let's load some news");
@@ -97,8 +98,6 @@ public class FragmentMain extends Fragment {
             public void onItemClick(AdapterView<?> av, View view, int index,
                                     long arg3) {
                 selectedRssItem = rssItems.get(index);
-
-
                 Intent intent = new Intent(
                         "ifmo.rain.mikhailov.displayRssItem");
                 startActivity(intent);

@@ -7,6 +7,8 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import ifmo.rain.mikhailov.rss_client.fragments.FragmentMain;
+
 /**
  * Created by Михайлов Никита on 17.12.2016.
  * RSS_Client
@@ -18,12 +20,10 @@ public class RSSItemDisplayer extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rss_item_displayer);
 
-        RSSItem selectedRssItem = RSSActivity.selectedRssItem;
+        RSSItem selectedRssItem = FragmentMain.selectedRssItem;
         //Bundle extras = getIntent().getExtras();
-
         TextView titleView = (TextView) findViewById(R.id.titleTextView);
         TextView contentView = (TextView) findViewById(R.id.contentTextView);
-
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM 'at' HH:mm", Locale.ENGLISH);
         String title = "\n" + selectedRssItem.getTitle() + " "
                 + sdf.format(selectedRssItem.getPubDate()) + " \n\n";
