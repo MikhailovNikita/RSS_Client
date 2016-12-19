@@ -2,6 +2,7 @@ package ifmo.rain.mikhailov.rss_client;
 
 import android.app.Service;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -16,6 +17,10 @@ import java.util.TimerTask;
  */
 
 public class BackgroundDownloadService extends Service {
+    final ArrayList<RSSItem> items = new ArrayList<>();
+    final FeedsDatabase dbHelper = new FeedsDatabase(this);
+
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -35,12 +40,19 @@ public class BackgroundDownloadService extends Service {
     }
 
     public class DownloadTimerTask extends TimerTask{
+
         @Override
         public void run() {
+
+
             AsyncRSSLoader asyncRSSLoader = new AsyncRSSLoader(new AsyncRSSLoader.AsyncResponse() {
                 @Override
                 public void processFinish(ArrayList<RSSItem> list) {
                     Log.d("TAG", list.get(1).toString());
+                    items.addAll(list);
+                    SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
+
+
                 }
             });
 
