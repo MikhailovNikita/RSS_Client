@@ -1,6 +1,7 @@
 package ifmo.rain.mikhailov.rss_client;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -40,6 +41,11 @@ public class MainActivity extends AppCompatActivity
         nameOfGroup = "main";
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        FeedsDatabase dbHelper = FeedsDatabase.getInstance(this);
+        SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
+
+        startService(new Intent(MainActivity.this, BackgroundDownloadService.class));
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
