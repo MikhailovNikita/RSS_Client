@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +17,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Date;
 
 import ifmo.rain.mikhailov.rss_client.fragments.FragmentMain;
 import ifmo.rain.mikhailov.rss_client.fragments.FragmentSettings;
@@ -37,17 +43,32 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FeedsDatabase dbHelper = new FeedsDatabase(this);
-        SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
 
-        startService(new Intent(MainActivity.this, BackgroundDownloadService.class));
+
+//
+//        startService(new Intent(MainActivity.this, BackgroundDownloadService.class));
+
+        final FeedsDatabase dbHelper = new FeedsDatabase(this);
+        final SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+               dbHelper.put(sqLiteDatabase, new RSSItem("KEK", "LUL", new Date(), "ROFL"), "MAMKIN LINK", "MAMKI");
+                dbHelper.put(sqLiteDatabase, new RSSItem("KEKI4", "LUL", new Date(), "ROFL"), "MAMKIN LINK", "PAPKA");
+                dbHelper.put(sqLiteDatabase, new RSSItem("ORU", "LUL", new Date(), "ROFL"), "PAPKIN LINK", "PAPKA");
+
+                try{
+                    ArrayList<RSSItem> list = dbHelper.get(sqLiteDatabase, "PAPKIN LINK");
+                    for(RSSItem item : list){
+                        Log.d("ROFL", item.toString());
+                    }
+                }catch(FileNotFoundException e){
+                    e.printStackTrace();
+                    Log.d("OCHEN ZHAL", "KEK");
+                }
+
             }
         });
 

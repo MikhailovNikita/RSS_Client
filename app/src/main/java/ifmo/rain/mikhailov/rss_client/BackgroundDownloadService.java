@@ -60,6 +60,7 @@ public class BackgroundDownloadService extends Service {
         public void run() {
 
             Log.d("TAG", "Run launched");
+
             for(String link : this.rssLinks){
 
                 AsyncRSSLoader asyncRSSLoader = new AsyncRSSLoader(new AsyncRSSLoader.AsyncResponse() {
@@ -71,12 +72,7 @@ public class BackgroundDownloadService extends Service {
                         //пока буду просто пихать, и баяны, и классеку(нет)
 
                         for(RSSItem item : list){
-                            ContentValues cv = new ContentValues();
-                            cv.put(RSS_LINK, "https://news.yandex.ru/law.rss"); //пока так
-                            cv.put(DESCRIPTION, item.getDescription());
-                            cv.put(PUB_DATE, item.getPubDate().toString());
-                            cv.put(RSS_TITLE, item.getTitle());
-                            sqLiteDatabase.insert("fucking_news", null, cv);
+                            dbHelper.put(sqLiteDatabase, item, "https://news.yandex.ru/law.rss", "МАМКИ" );
                         }
                     }
                 });
