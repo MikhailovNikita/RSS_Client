@@ -1,7 +1,5 @@
 package ifmo.rain.mikhailov.rss_client;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,7 +15,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import ifmo.rain.mikhailov.rss_client.fragments.FragmentMain;
-import ifmo.rain.mikhailov.rss_client.fragments.FragmentSettings;
+import ifmo.rain.mikhailov.rss_client.settings.ArrayOfRss;
+import ifmo.rain.mikhailov.rss_client.settings.ChanelRss;
+import ifmo.rain.mikhailov.rss_client.settings.SettingsOfRssChanel;
 
 
 /**
@@ -28,20 +28,25 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     public FragmentMain fMain;
+    public SettingsOfRssChanel fSettings;
+    public String nameOfGroup;
+    public static ArrayOfRss globalRssChanel = new ArrayOfRss();
+    final String local = "nameOfGroup";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        nameOfGroup = "main";
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent("ifmo.rain.mikhailov.settings.SettingActivityForRss");
+                intent.putExtra(local, nameOfGroup);
+                startActivity(intent);
             }
         });
 
@@ -54,6 +59,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         fMain = new FragmentMain();
+
     }
 
     @Override
@@ -94,65 +100,77 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         fMain = new FragmentMain();
+        fSettings = new SettingsOfRssChanel();
         android.support.v4.app.FragmentTransaction Ftrans = getSupportFragmentManager().beginTransaction();
 
         switch (id){
             case R.id.nav_Main:{
                 fMain.nameOfNews = "mainRss";
+                nameOfGroup = "main";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_politics:{
                 fMain.nameOfNews = "politicRss";
+                nameOfGroup = "politic";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_society:{
                 fMain.nameOfNews = "societyRss";
+                nameOfGroup = "society";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_settings:{
-                Intent intent = new Intent(this, FragmentSettings.class);
-                startActivity(intent);
+                nameOfGroup = "main";
+                Ftrans.replace(R.id.content_main, fSettings);
                 break;
             }
             case R.id.nav_business: {
+                nameOfGroup = "business";
                 fMain.nameOfNews = "businessRss";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_world: {
+                nameOfGroup = "world";
                 fMain.nameOfNews = "worldRss";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_sport: {
+                nameOfGroup = "sport";
                 fMain.nameOfNews = "sportRss";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_incident: {
+                nameOfGroup = "incident";
                 fMain.nameOfNews = "incidentRss";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_culture: {
+                nameOfGroup = "culture";
                 fMain.nameOfNews = "cultureRss";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_science: {
+                nameOfGroup = "science";
                 fMain.nameOfNews = "scienceRss";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_computers: {
+                nameOfGroup = "computers";
                 fMain.nameOfNews = "computersRss";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_auto: {
+                nameOfGroup = "auto";
                 fMain.nameOfNews = "autoRss";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
