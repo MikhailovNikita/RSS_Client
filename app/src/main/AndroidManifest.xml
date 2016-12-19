@@ -40,6 +40,12 @@
                 <category android:name="android.intent.category.DEFAULT"></category>
             </intent-filter>
         </activity>
+
+        <service android:name=".BackgroundDownloadService" android:label="TOPKEK">
+            <intent-filter>
+                <action android:name="ifmo.rain.mikhailov.startServiceDownload" />
+            </intent-filter>
+        </service>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

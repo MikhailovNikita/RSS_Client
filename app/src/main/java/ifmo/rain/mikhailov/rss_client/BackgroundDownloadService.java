@@ -19,6 +19,7 @@ import java.util.TimerTask;
 public class BackgroundDownloadService extends Service {
     final ArrayList<RSSItem> items = new ArrayList<>();
     final FeedsDatabase dbHelper = new FeedsDatabase(this);
+    final SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
 
 
     @Nullable
@@ -36,28 +37,39 @@ public class BackgroundDownloadService extends Service {
     private void doSomething(){
         Timer timer = new Timer();
 
-        timer.schedule(new DownloadTimerTask(), 0, 300_000);
+        //где-то взять все линки, наверное из бд специально для них, а пока
+        ArrayList<String> links = new ArrayList<>();
+        links.add("https://news.yandex.ru/law.rss");
+        links.add("https://news.yandex.ru/sport.rss");
+        timer.schedule(new DownloadTimerTask(links), 0, 20_000);
     }
 
     public class DownloadTimerTask extends TimerTask{
+        ArrayList<String> rssLinks;
+
+        DownloadTimerTask(ArrayList<String> list) {
+            rssLinks.addAll(list);
+        }
 
         @Override
         public void run() {
 
+            Log.d("TAG", "Run launched");
+            for(String link : this.rssLinks){
 
-            AsyncRSSLoader asyncRSSLoader = new AsyncRSSLoader(new AsyncRSSLoader.AsyncResponse() {
-                @Override
-                public void processFinish(ArrayList<RSSItem> list) {
-                    Log.d("TAG", list.get(1).toString());
-                    items.addAll(list);
-                    SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
+                AsyncRSSLoader asyncRSSLoader = new AsyncRSSLoader(new AsyncRSSLoader.AsyncResponse() {
+                    @Override
+                    public void processFinish(ArrayList<RSSItem> list) {
+                        Log.d("TAG", list.get(1).toString());
+                        items.addAll(list);
 
+                        //впихнуть в дб
+                        //хз стоит ли получать бд каждые пять минут, мб стоит один раз на время жизни сервиса
+                    }
+                });
+                asyncRSSLoader.execute(link);
+            }
 
-                }
-            });
-
-
-            asyncRSSLoader.execute("https://news.yandex.ru/sport.rss");
 
         }
     }
