@@ -34,7 +34,7 @@ public class FeedsDatabase extends SQLiteOpenHelper {
     private volatile static FeedsDatabase instance;
 
     private FeedsDatabase(Context context) {
-        super(context, "RSS_FEEDS_DATABASE", null, 1);
+        super(context, TABLE_NAME, null, 1);
     }
 
     public static FeedsDatabase getInstance(Context context) {
