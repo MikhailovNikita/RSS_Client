@@ -26,21 +26,36 @@ import static ifmo.rain.mikhailov.rss_client.DatabaseContract.TABLE_NAME;
  */
 //title link description date
 public class FeedsDatabase extends SQLiteOpenHelper {
-    Context context;
 
-    public FeedsDatabase(Context context) {
+
+    private volatile static FeedsDatabase instance;
+
+    private FeedsDatabase(Context context) {
         super(context, "RSS_FEEDS_DATABASE", null, 1);
-        this.context = context;
+    }
+
+    public static FeedsDatabase getInstance(Context context) {
+        if (instance == null) {
+            synchronized (FeedsDatabase.class) {
+                if (instance == null) {
+                    instance = new FeedsDatabase(context);
+                }
+            }
+        }
+        return instance;
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        Log.d("DATABASE", "Database creation");
+        Log.d("DATABASE", "Database:onCreate");
+        createDatabase(sqLiteDatabase);
+    }
 
+    private void createDatabase(SQLiteDatabase sqLiteDatabase) {
+        Log.d("DATABASE", "Database creation");
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_NAME + " ( _ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + RSS_CATEGORY + " TEXT, " + RSS_SOURCE_LINK + " TEXT, " + RSS_TITLE + " TEXT, "
                 + RSS_DESCRIPTION + " TEXT, " + RSS_PUB_DATE + " TEXT, " + RSS_NEWS_LINK + " TEXT)");
-
     }
 
     @Override
@@ -79,14 +94,14 @@ public class FeedsDatabase extends SQLiteOpenHelper {
                             new Date(), cursor.getString(++pos));
 
                     rssItems.add(rssItem);
-                    if(!cursor.moveToNext()) break;
+                    if (!cursor.moveToNext()) break;
                 }
 
             }
 
             throw new FileNotFoundException();
-        }finally {
-            if(cursor != null) cursor.close();
+        } finally {
+            if (cursor != null) cursor.close();
         }
 
     }
