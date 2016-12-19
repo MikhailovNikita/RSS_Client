@@ -1,7 +1,5 @@
 package ifmo.rain.mikhailov.rss_client;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -16,9 +14,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import ifmo.rain.mikhailov.rss_client.fragments.FragmentMain;
-import ifmo.rain.mikhailov.rss_client.fragments.FragmentSettings;
 
 
 /**
@@ -37,19 +32,10 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FeedsDatabase dbHelper = new FeedsDatabase(this);
+        FeedsDatabase dbHelper = FeedsDatabase.getInstance(this);
         SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
 
         startService(new Intent(MainActivity.this, BackgroundDownloadService.class));
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
