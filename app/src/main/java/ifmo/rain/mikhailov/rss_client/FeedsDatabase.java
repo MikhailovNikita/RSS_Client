@@ -71,6 +71,7 @@ public class FeedsDatabase extends SQLiteOpenHelper {
         Cursor cursor = sqLiteDatabase.query(TABLE_NAME, new String[]{RSS_TITLE, RSS_DESCRIPTION, RSS_PUB_DATE, RSS_NEWS_LINK},
                 RSS_SOURCE_LINK + " = ?", new String[]{sourceLink}, null, null, RSS_PUB_DATE);
 
+
         Log.d("DATABASE READING", String.valueOf(cursor.getCount()));
 
         try {
