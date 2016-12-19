@@ -3,6 +3,7 @@ package ifmo.rain.mikhailov.rss_client;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -35,6 +36,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        FeedsDatabase dbHelper = new FeedsDatabase(this);
+        SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
 
         startService(new Intent(MainActivity.this, BackgroundDownloadService.class));
 
