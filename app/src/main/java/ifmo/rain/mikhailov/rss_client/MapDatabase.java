@@ -130,7 +130,7 @@ public class MapDatabase extends SQLiteOpenHelper {
     }
 
     public void delete(SQLiteDatabase sqLiteDatabase, String rssChannel) {
-        sqLiteDatabase.delete(TABLE_NAME, RSS_LINK + " = ?", new String[]{rssChannel});
+        sqLiteDatabase.delete(TABLE_NAME, RSS_LINK + " = " + rssChannel, null);
     }
 
 
