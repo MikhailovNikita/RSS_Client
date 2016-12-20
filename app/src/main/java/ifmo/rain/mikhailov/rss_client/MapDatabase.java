@@ -116,10 +116,11 @@ public class MapDatabase extends SQLiteOpenHelper {
         throw new FileNotFoundException();
     }
 
-    public void put(SQLiteDatabase sqLiteDatabase, Pair<String, String> pair) {
+    public void put(SQLiteDatabase sqLiteDatabase, String category, String link, String name) {
         ContentValues cv = new ContentValues();
-        cv.put(RSS_CATEGORY, pair.first);
-        cv.put(RSS_LINK, pair.second);
+        cv.put(RSS_CATEGORY, category);
+        cv.put(RSS_LINK, link);
+        cv.put(RSS_NAME, name);
 
         try {
             sqLiteDatabase.insert(TABLE_NAME, null, cv);
