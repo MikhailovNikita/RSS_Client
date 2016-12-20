@@ -10,4 +10,5 @@ public class MapDatabaseContract {
     final static String RSS_CATEGORY = "rss_map_category";
     final static String RSS_LINK = "rss_map_link";
     final static String RSS_NAME = "rss_map_name";
+    final static String RSS_LAST_DATE = "rss_map_date";
 }

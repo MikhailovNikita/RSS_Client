@@ -8,11 +8,14 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.util.Pair;
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static ifmo.rain.mikhailov.rss_client.MapDatabaseContract.RSS_CATEGORY;
+import static ifmo.rain.mikhailov.rss_client.MapDatabaseContract.RSS_LAST_DATE;
 import static ifmo.rain.mikhailov.rss_client.MapDatabaseContract.RSS_LINK;
 import static ifmo.rain.mikhailov.rss_client.MapDatabaseContract.RSS_NAME;
 import static ifmo.rain.mikhailov.rss_client.MapDatabaseContract.TABLE_NAME;
@@ -55,7 +58,8 @@ public class MapDatabase extends SQLiteOpenHelper {
     private void createDatabase(SQLiteDatabase sqLiteDatabase) {
         Log.d("DATABASE", "Database creation");
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_NAME + " ( _ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + RSS_CATEGORY + " TEXT, " + RSS_LINK + " TEXT," + RSS_NAME + " TEXT)");
+                + RSS_CATEGORY + " TEXT, " + RSS_LINK + " TEXT, " + RSS_NAME + " TEXT, "
+                + RSS_LAST_DATE + " TEXT)");
     }
 
     public List<Pair<String, String>> get(SQLiteDatabase sqLiteDatabase, String category) throws FileNotFoundException {
@@ -118,9 +122,11 @@ public class MapDatabase extends SQLiteOpenHelper {
 
     public void put(SQLiteDatabase sqLiteDatabase, String category, String link, String name) {
         ContentValues cv = new ContentValues();
+        Date date = new Date();
         cv.put(RSS_CATEGORY, category);
         cv.put(RSS_LINK, link);
         cv.put(RSS_NAME, name);
+        cv.put(RSS_LAST_DATE, date.toString());
 
         try {
             sqLiteDatabase.insert(TABLE_NAME, null, cv);
@@ -130,7 +136,39 @@ public class MapDatabase extends SQLiteOpenHelper {
     }
 
     public void delete(SQLiteDatabase sqLiteDatabase, String rssChannel) {
-        sqLiteDatabase.delete(TABLE_NAME, RSS_LINK + " = " + rssChannel, null);
+        sqLiteDatabase.delete(TABLE_NAME, RSS_LINK + " = ?", new String[]{rssChannel});
+    }
+
+    public String getDate(SQLiteDatabase sqLiteDatabase, String rssLink) throws FileNotFoundException {
+        Date date = new Date();
+        String response = date.toString();
+
+        Cursor cursor = null;
+
+        try {
+            cursor = sqLiteDatabase.query(TABLE_NAME, new String[]{RSS_LAST_DATE}, RSS_LINK + " = ?",
+                    new String[]{rssLink},
+                    null, null, null);
+
+            if (cursor != null && cursor.moveToFirst()) response = cursor.getString(0);
+
+            return response;
+
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) cursor.close();
+        }
+
+        throw new FileNotFoundException();
+    }
+
+    public void updateDate(SQLiteDatabase sqLiteDatabase, String newDate, String rssLink){
+        ContentValues cv = new ContentValues();
+        cv.put(RSS_LAST_DATE, newDate);
+
+        sqLiteDatabase.update(TABLE_NAME, cv, RSS_LINK + " = ?", new String[]{rssLink});
+
     }
 
 
