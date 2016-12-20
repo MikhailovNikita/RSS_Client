@@ -60,6 +60,15 @@ public class MapDatabase extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_NAME + " ( _ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + RSS_CATEGORY + " TEXT, " + RSS_LINK + " TEXT, " + RSS_NAME + " TEXT, "
                 + RSS_LAST_DATE + " TEXT)");
+
+        ContentValues cv = new ContentValues();
+        Date date = new Date();
+        cv.put(RSS_CATEGORY, "Sport");
+        cv.put(RSS_LINK, "https://news.yandex.ru/law.rss");
+        cv.put(RSS_NAME, "Yandex Sport");
+        cv.put(RSS_LAST_DATE, date.toString());
+
+        sqLiteDatabase.insert(TABLE_NAME, null, cv);
     }
 
     public List<Pair<String, String>> get(SQLiteDatabase sqLiteDatabase, String category) throws FileNotFoundException {

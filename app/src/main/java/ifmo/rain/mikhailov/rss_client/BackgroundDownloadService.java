@@ -11,6 +11,7 @@ import android.util.Log;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -75,6 +76,8 @@ public class BackgroundDownloadService extends Service {
                         Log.d("TAG", list.get(1).toString());
 
                         for (RSSItem item : list) {
+                            Date recordingDate = item.getPubDate();
+
                             dbHelper.put(sqLiteDatabase, item, curLink, "CATEGORY NAME");
                         }
                     }
