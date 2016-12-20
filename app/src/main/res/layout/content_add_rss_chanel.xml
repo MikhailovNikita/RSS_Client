@@ -19,9 +19,12 @@
         android:height="20dp"/>
     <EditText
         android:id="@+id/editRssName2"
-        android:layout_width="wrap_content"
+        android:layout_width="232dp"
+        android:width="100dp"
         android:layout_height="wrap_content"
-        android:height="20dp"/>
+        android:height="30dp"
+        style="@style/Widget.AppCompat.EditText"
+        android:singleLine="true" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,14 +32,20 @@
         android:height="20dp"/>
     <EditText
         android:id="@+id/editRss2"
-        android:layout_width="wrap_content"
+        android:layout_width="230dp"
+        android:width="100dp"
         android:layout_height="wrap_content"
-        android:height="20dp"/>
+        android:height="30dp"
+        style="@style/Widget.AppCompat.EditText"
+        android:singleLine="true" />
+
     <Button
         android:id="@+id/endOfEdit2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onMyButtonClick2"
-        android:text="@string/add_changes"/>
+        android:text="@string/add_changes"
+        style="@android:style/Widget.Button"
+        android:elevation="14dp" />
 
 </LinearLayout>

@@ -19,9 +19,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@mipmap/ic_settings"
-        app:backgroundTint="@android:color/background_light"
-        app:rippleColor="@android:color/background_light"
-        app:elevation="20dp" />
+        app:srcCompat="@drawable/ic_action_setting_fab"
+        app:backgroundTint="@android:color/holo_blue_dark"
+        app:fabSize="normal"
+        app:elevation="9dp" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -1,18 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@android:style/Theme.Material.Light.DarkActionBar">
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="10dp"
+            app:srcCompat="@drawable/ic_toolbar_to_bookmarks"
+            app:backgroundTint="#24000000"
+            app:elevation="0dp" />
+
+    </android.support.design.widget.AppBarLayout>
+
 
     <TextView
         android:id="@+id/titleTextView"
         android:text="Title:"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:padding="10dp"
-        android:textSize="13sp"
+        android:textSize="20sp"
         android:autoLink="all"
         />
 
@@ -24,5 +44,14 @@
         android:textSize="13sp"
         android:autoLink="all"
         />
+
+    <Button
+        android:id="@+id/go_by_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="go_by_link"
+        android:text="@string/More"
+        style="@android:style/Widget.Button"
+        android:elevation="10dp" />
 
 </LinearLayout>
