@@ -8,7 +8,10 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,10 +24,6 @@ public class BackgroundDownloadService extends Service {
     final ArrayList<RSSItem> items = new ArrayList<>();
     final FeedsDatabase dbHelper = FeedsDatabase.getInstance(this);
     final SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
-    private final String RSS_LINK = "rss_feed_link";
-    private final String DESCRIPTION = "rss_description";
-    private final String PUB_DATE = "rss_pub_date";
-    private final String RSS_TITLE = "rss_title";
 
 
     @Nullable
@@ -39,20 +38,26 @@ public class BackgroundDownloadService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void doSomething(){
+    private void doSomething() {
         Timer timer = new Timer();
 
-        //где-то взять все линки, наверное из бд специально для них, а пока
-        ArrayList<String> links = new ArrayList<>();
-        links.add("https://news.yandex.ru/law.rss");
-        links.add("https://news.yandex.ru/sport.rss");
+
+        List<String> links = new ArrayList<>();
+        MapDatabase mapDBHelper = MapDatabase.getInstance(this);
+        SQLiteDatabase sqLiteDatabase = mapDBHelper.getReadableDatabase();
+        try {
+            links = mapDBHelper.getAll(sqLiteDatabase);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
         timer.schedule(new DownloadTimerTask(links), 0, 20_000);
     }
 
-    public class DownloadTimerTask extends TimerTask{
+    public class DownloadTimerTask extends TimerTask {
         ArrayList<String> rssLinks;
 
-        DownloadTimerTask(ArrayList<String> list) {
+        DownloadTimerTask(List<String> list) {
             rssLinks.addAll(list);
         }
 
@@ -61,18 +66,16 @@ public class BackgroundDownloadService extends Service {
 
             Log.d("TAG", "Run launched");
 
-            for(String link : this.rssLinks){
+            for (String link : this.rssLinks) {
+                final String curLink = link;
 
                 AsyncRSSLoader asyncRSSLoader = new AsyncRSSLoader(new AsyncRSSLoader.AsyncResponse() {
                     @Override
                     public void processFinish(ArrayList<RSSItem> list) {
                         Log.d("TAG", list.get(1).toString());
 
-
-                        //пока буду просто пихать, и баяны, и классеку(нет)
-
-                        for(RSSItem item : list){
-                            dbHelper.put(sqLiteDatabase, item, "https://news.yandex.ru/law.rss", "МАМКИ" );
+                        for (RSSItem item : list) {
+                            dbHelper.put(sqLiteDatabase, item, curLink, "CATEGORY NAME");
                         }
                     }
                 });

@@ -16,6 +16,7 @@ import java.util.List;
 
 import static ifmo.rain.mikhailov.rss_client.MapDatabaseContract.RSS_CATEGORY;
 import static ifmo.rain.mikhailov.rss_client.MapDatabaseContract.RSS_LINK;
+import static ifmo.rain.mikhailov.rss_client.MapDatabaseContract.RSS_NAME;
 import static ifmo.rain.mikhailov.rss_client.MapDatabaseContract.TABLE_NAME;
 
 
@@ -56,16 +57,45 @@ public class MapDatabase extends SQLiteOpenHelper {
     private void createDatabase(SQLiteDatabase sqLiteDatabase) {
         Log.d("DATABASE", "Database creation");
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_NAME + " ( _ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + RSS_CATEGORY + " TEXT, " + RSS_LINK + " TEXT)");
+                + RSS_CATEGORY + " TEXT, " + RSS_LINK + " TEXT," + RSS_NAME + " TEXT)");
     }
 
-    public List<String> get(SQLiteDatabase sqLiteDatabase, String category) throws FileNotFoundException{
+    public List<Pair<String, String>> get(SQLiteDatabase sqLiteDatabase, String category) throws FileNotFoundException {
+        List<Pair<String, String>> response = new ArrayList<>();
+        Cursor cursor = null;
+
+        try {
+            cursor = sqLiteDatabase.query(TABLE_NAME, new String[]{RSS_LINK, RSS_NAME}, RSS_CATEGORY + " = ?",
+                    new String[]{category}, null, null, null);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                while (true) {
+                    Pair<String, String> p = new Pair<>(cursor.getString(0), cursor.getString(1));
+                    response.add(p);
+
+                    if (!cursor.moveToNext()) break;
+                }
+            }
+
+            return response;
+
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) cursor.close();
+        }
+
+        throw new FileNotFoundException();
+    }
+
+
+    public List<String> getAll(SQLiteDatabase sqLiteDatabase) throws FileNotFoundException {
         List<String> response = new ArrayList<>();
         Cursor cursor = null;
 
         try {
-            cursor = sqLiteDatabase.query(TABLE_NAME, new String[]{RSS_LINK}, RSS_CATEGORY + " = ?",
-                    new String[]{category}, null, null, null);
+            cursor = sqLiteDatabase.query(TABLE_NAME, new String[]{RSS_LINK}, null, null,
+                    null, null, null);
 
             if (cursor != null && cursor.moveToFirst()) {
                 while (true) {
@@ -98,7 +128,10 @@ public class MapDatabase extends SQLiteOpenHelper {
         } catch (SQLiteException e) {
             e.printStackTrace();
         }
+    }
 
+    public void delete(SQLiteDatabase sqLiteDatabase, String rssChannel) {
+        sqLiteDatabase.delete(TABLE_NAME, RSS_LINK + " = ?", new String[]{rssChannel});
     }
 
 

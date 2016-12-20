@@ -39,6 +39,16 @@ public class RSSItem {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof  RSSItem){
+            RSSItem item = (RSSItem) obj;
+            return this.title.equals(item.getTitle());
+        }
+
+        return false;
+    }
+
+    @Override
     public String toString() {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM 'at' HH:mm", Locale.ENGLISH);

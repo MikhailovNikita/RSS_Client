@@ -66,6 +66,7 @@ public class AsyncRSSLoader extends AsyncTask<String, ArrayList<RSSItem>, ArrayL
                 SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
 
 
+
                 for (int i = 0; i < nodeList.getLength(); i++) {
                     Node node = nodeList.item(i);
 
@@ -95,6 +96,7 @@ public class AsyncRSSLoader extends AsyncTask<String, ArrayList<RSSItem>, ArrayL
 
 
                     RSSItem rssItem = new RSSItem(title, description, publishDate, link);
+
 
 
                     rssItems.add(rssItem);
