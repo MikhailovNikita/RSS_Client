@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
+import java.util.Locale;
 
 import static ifmo.rain.mikhailov.rss_client.DatabaseContract.RSS_CATEGORY;
 import static ifmo.rain.mikhailov.rss_client.DatabaseContract.RSS_DESCRIPTION;
@@ -32,21 +33,36 @@ import static ifmo.rain.mikhailov.rss_client.DatabaseContract.TABLE_NAME;
  */
 //title link description date
 public class FeedsDatabase extends SQLiteOpenHelper {
-    Context context;
 
-    public FeedsDatabase(Context context) {
-        super(context, "RSS_FEEDS_DATABASE", null, 1);
-        this.context = context;
+
+    private volatile static FeedsDatabase instance;
+
+    private FeedsDatabase(Context context) {
+        super(context, TABLE_NAME, null, 1);
+    }
+
+    public static FeedsDatabase getInstance(Context context) {
+        if (instance == null) {
+            synchronized (FeedsDatabase.class) {
+                if (instance == null) {
+                    instance = new FeedsDatabase(context);
+                }
+            }
+        }
+        return instance;
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        Log.d("DATABASE", "Database creation");
+        Log.d("DATABASE", "Database:onCreate");
+        createDatabase(sqLiteDatabase);
+    }
 
+    private void createDatabase(SQLiteDatabase sqLiteDatabase) {
+        Log.d("DATABASE", "Database creation");
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_NAME + " ( _ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + RSS_CATEGORY + " TEXT, " + RSS_SOURCE_LINK + " TEXT, " + RSS_TITLE + " TEXT, "
                 + RSS_DESCRIPTION + " TEXT, " + RSS_PUB_DATE + " TEXT, " + RSS_NEWS_LINK + " TEXT)");
-
     }
 
     @Override
@@ -70,36 +86,35 @@ public class FeedsDatabase extends SQLiteOpenHelper {
     public ArrayList<RSSItem> get(SQLiteDatabase sqLiteDatabase, String sourceLink) throws FileNotFoundException {
         Cursor cursor = sqLiteDatabase.query(TABLE_NAME, new String[]{RSS_TITLE, RSS_DESCRIPTION, RSS_PUB_DATE, RSS_NEWS_LINK},
                 RSS_SOURCE_LINK + " = ?", new String[]{sourceLink}, null, null, RSS_PUB_DATE);
+
         Log.d("DATABASE READING", String.valueOf(cursor.getCount()));
 
         try {
             if (cursor != null && cursor.moveToFirst()) {
                 ArrayList<RSSItem> rssItems = new ArrayList<>();
-                SimpleDateFormat dateFormat1 = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+
+
+                SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
 
 
                 while (true) {
                     RSSItem rssItem;
-                    Date publishDate;
-
 
                     int pos = 0;
+
                     String f1 = cursor.getString(pos++);
                     String f2 = cursor.getString(pos++);
-                    String pubDate = cursor.getString(pos++);
+                    String f3 = cursor.getString(pos++);
                     String f4 = cursor.getString(pos++);
-
-                    Log.d("DATE", pubDate);
-                    try {
-                        publishDate = dateFormat1.parse(pubDate);
-                    } catch (ParseException e) {
-
-                        //TODO: add notification that date is not correct
-                        publishDate = new Date();
+                    Date date;
+                    try{
+                        date = sdf.parse(f3);
+                    }catch(ParseException e){
+                        date = new Date();
                     }
 
-                    rssItem = new RSSItem(f1, f2, publishDate, f4);
 
+                    rssItem = new RSSItem(f1,f2,date,f4);
 
                     rssItems.add(rssItem);
                     if (!cursor.moveToNext()) break;

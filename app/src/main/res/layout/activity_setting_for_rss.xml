@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_setting_for_rss"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="ifmo.rain.mikhailov.rss_client.settings.SettingActivityForRss">
+
+    <ListView
+        android:id="@+id/rssSettingsView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@mipmap/ic_settings"
+        app:backgroundTint="@android:color/background_light"
+        app:rippleColor="@android:color/background_light"
+        app:elevation="20dp" />
+
+</android.support.design.widget.CoordinatorLayout>

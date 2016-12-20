@@ -24,7 +24,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import ifmo.rain.mikhailov.rss_client.fragments.FragmentMain;
-import ifmo.rain.mikhailov.rss_client.fragments.FragmentSettings;
+import ifmo.rain.mikhailov.rss_client.settings.ArrayOfRss;
+import ifmo.rain.mikhailov.rss_client.settings.ChanelRss;
+import ifmo.rain.mikhailov.rss_client.settings.SettingsOfRssChanel;
 
 
 /**
@@ -35,40 +37,30 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     public FragmentMain fMain;
+    public SettingsOfRssChanel fSettings;
+    public String nameOfGroup;
+    public static ArrayOfRss globalRssChanel = new ArrayOfRss();
+    final String local = "nameOfGroup";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        nameOfGroup = "main";
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        FeedsDatabase dbHelper = FeedsDatabase.getInstance(this);
+        SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
 
-
-//
-//        startService(new Intent(MainActivity.this, BackgroundDownloadService.class));
-
-        final FeedsDatabase dbHelper = new FeedsDatabase(this);
-        final SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
-
+        startService(new Intent(MainActivity.this, BackgroundDownloadService.class));
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               dbHelper.put(sqLiteDatabase, new RSSItem("KEK", "LUL", new Date(), "ROFL"), "MAMKIN LINK", "MAMKI");
-                dbHelper.put(sqLiteDatabase, new RSSItem("KEKI4", "LUL", new Date(), "ROFL"), "MAMKIN LINK", "PAPKA");
-                dbHelper.put(sqLiteDatabase, new RSSItem("ORU", "LUL", new Date(), "ROFL"), "PAPKIN LINK", "PAPKA");
-
-                try{
-                    ArrayList<RSSItem> list = dbHelper.get(sqLiteDatabase, "PAPKIN LINK");
-                    for(RSSItem item : list){
-                        Log.d("ROFL", item.toString());
-                    }
-                }catch(FileNotFoundException e){
-                    e.printStackTrace();
-                    Log.d("OCHEN ZHAL", "KEK");
-                }
-
+                Intent intent = new Intent("ifmo.rain.mikhailov.settings.SettingActivityForRss");
+                intent.putExtra(local, nameOfGroup);
+                startActivity(intent);
             }
         });
 
@@ -121,65 +113,78 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         fMain = new FragmentMain();
+        fSettings = new SettingsOfRssChanel();
         android.support.v4.app.FragmentTransaction Ftrans = getSupportFragmentManager().beginTransaction();
 
         switch (id){
             case R.id.nav_Main:{
                 fMain.nameOfNews = "mainRss";
+                nameOfGroup = "main";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_politics:{
                 fMain.nameOfNews = "politicRss";
+                nameOfGroup = "politic";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_society:{
                 fMain.nameOfNews = "societyRss";
+                nameOfGroup = "society";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_settings:{
+                nameOfGroup = "main";
                 Intent intent = new Intent(this, FragmentSettings.class);
                 startActivity(intent);
                 break;
             }
             case R.id.nav_business: {
+                nameOfGroup = "business";
                 fMain.nameOfNews = "businessRss";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_world: {
+                nameOfGroup = "world";
                 fMain.nameOfNews = "worldRss";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_sport: {
+                nameOfGroup = "sport";
                 fMain.nameOfNews = "sportRss";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_incident: {
+                nameOfGroup = "incident";
                 fMain.nameOfNews = "incidentRss";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_culture: {
+                nameOfGroup = "culture";
                 fMain.nameOfNews = "cultureRss";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_science: {
+                nameOfGroup = "science";
                 fMain.nameOfNews = "scienceRss";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_computers: {
+                nameOfGroup = "computers";
                 fMain.nameOfNews = "computersRss";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_auto: {
+                nameOfGroup = "auto";
                 fMain.nameOfNews = "autoRss";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;

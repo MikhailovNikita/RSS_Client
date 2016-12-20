@@ -19,7 +19,7 @@ import java.util.TimerTask;
 
 public class BackgroundDownloadService extends Service {
     final ArrayList<RSSItem> items = new ArrayList<>();
-    final FeedsDatabase dbHelper = new FeedsDatabase(this);
+    final FeedsDatabase dbHelper = FeedsDatabase.getInstance(this);
     final SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
     private final String RSS_LINK = "rss_feed_link";
     private final String DESCRIPTION = "rss_description";

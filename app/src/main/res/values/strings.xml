@@ -23,4 +23,9 @@
     <string name="science">Science</string>
     <string name="computers">Computers</string>
     <string name="auto">Auto</string>
+    <string name="enter_rss_name">Enter rss name</string>
+    <string name="enter_rss">Enter rss</string>
+    <string name="save_changes">save changes</string>
+    <string name="title_activity_add_rss_chanel">AddRssChanel</string>
+    <string name="add_changes">Add changes</string>
 </resources>
