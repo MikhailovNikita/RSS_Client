@@ -2,25 +2,32 @@ package ifmo.rain.mikhailov.rss_client.fragments;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import ifmo.rain.mikhailov.rss_client.AsyncRSSLoader;
+import ifmo.rain.mikhailov.rss_client.MapDatabase;
 import ifmo.rain.mikhailov.rss_client.R;
 import ifmo.rain.mikhailov.rss_client.RSSItem;
+import ifmo.rain.mikhailov.rss_client.settings.AddRssChanel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,8 +52,8 @@ public class FragmentMain extends Fragment {
     ListView rssListView = null;
     ArrayList<RSSItem> rssItems = new ArrayList<>();
     ArrayAdapter<RSSItem> aa;
-    public String nameOfNews;
-
+    public String nameOfCategory;
+    View view;
     private OnFragmentInteractionListener mListener;
 
     public FragmentMain() {
@@ -71,6 +78,7 @@ public class FragmentMain extends Fragment {
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -88,10 +96,44 @@ public class FragmentMain extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View view = inflater.inflate(R.layout.fragmnent_main, container, false);
-        SharedPreferences prefs=
-                PreferenceManager.getDefaultSharedPreferences(getActivity());
-        feedUrl = prefs.getString(nameOfNews, "").toString();
+        view = inflater.inflate(R.layout.fragmnent_main, container, false);
+        MapDatabase database = MapDatabase.getInstance(this.getContext());
+        SQLiteDatabase db = database.getReadableDatabase();
+        final Spinner spinner = (Spinner)view.findViewById(R.id.spinner);
+        List<Pair<String, String>> pairsOfRss = new ArrayList<>();
+        try {
+            pairsOfRss = database.get(db, nameOfCategory);
+            if (pairsOfRss.size() == 0){
+                db = database.getWritableDatabase();
+                database.put(db, nameOfCategory, "https://news.yandex.ru/index.rss", "Yandex News");
+                pairsOfRss.add(new Pair("https://news.yandex.ru/index.rss", "Yandex News"));
+                db = database.getReadableDatabase();
+            }
+        } catch (FileNotFoundException e){
+            pairsOfRss.add(new Pair("no one chanel founded", "no one chanel founded"));
+        }
+        List<String> rssName = new ArrayList<>();
+        final List<String> rssLink = new ArrayList<>();
+        for (int i = 0; i < pairsOfRss.size(); ++i){
+            rssLink.add(pairsOfRss.get(i).first);
+            rssName.add(pairsOfRss.get(i).second);
+        }
+        feedUrl = rssLink.get(0);
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(view.getContext(), R.layout.setting_spinner_item, rssName);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent,
+                                       View itemSelected, int selectedItemPosition, long selectedId) {
+
+                feedUrl = rssLink.get(selectedItemPosition);
+                refreshRSSList();
+                ViewList(view);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
 
         refreshRSSList();
         Log.d("BUTTON", feedUrl);
@@ -108,11 +150,14 @@ public class FragmentMain extends Fragment {
             }
         });
 
-        aa = new ArrayAdapter<RSSItem>(view.getContext(), R.layout.list_item, rssItems);
-        //here we bind array adapter to the list
-        rssListView.setAdapter(aa);
+        ViewList(view);
         return view;
     }
+    private void ViewList(View view){
+        aa = new ArrayAdapter<RSSItem>(view.getContext(), R.layout.list_item, rssItems);
+        rssListView.setAdapter(aa);
+    }
+
 
     private void refreshRSSList() {
 

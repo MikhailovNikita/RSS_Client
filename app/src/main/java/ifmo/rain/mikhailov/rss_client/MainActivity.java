@@ -109,19 +109,19 @@ public class MainActivity extends AppCompatActivity
 
         switch (id){
             case R.id.nav_Main:{
-                fMain.nameOfNews = "mainRss";
+                fMain.nameOfCategory = "main";
                 nameOfGroup = "main";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_politics:{
-                fMain.nameOfNews = "politicRss";
+                fMain.nameOfCategory = "politic";
                 nameOfGroup = "politic";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_society:{
-                fMain.nameOfNews = "societyRss";
+                fMain.nameOfCategory = "society";
                 nameOfGroup = "society";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
@@ -134,49 +134,49 @@ public class MainActivity extends AppCompatActivity
             }
             case R.id.nav_business: {
                 nameOfGroup = "business";
-                fMain.nameOfNews = "businessRss";
+                fMain.nameOfCategory = "business";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_world: {
                 nameOfGroup = "world";
-                fMain.nameOfNews = "worldRss";
+                fMain.nameOfCategory = "world";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_sport: {
                 nameOfGroup = "sport";
-                fMain.nameOfNews = "sportRss";
+                fMain.nameOfCategory = "sport";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_incident: {
                 nameOfGroup = "incident";
-                fMain.nameOfNews = "incidentRss";
+                fMain.nameOfCategory = "incident";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_culture: {
                 nameOfGroup = "culture";
-                fMain.nameOfNews = "cultureRss";
+                fMain.nameOfCategory = "culture";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_science: {
                 nameOfGroup = "science";
-                fMain.nameOfNews = "scienceRss";
+                fMain.nameOfCategory = "science";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_computers: {
                 nameOfGroup = "computers";
-                fMain.nameOfNews = "computersRss";
+                fMain.nameOfCategory = "computers";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_auto: {
                 nameOfGroup = "auto";
-                fMain.nameOfNews = "autoRss";
+                fMain.nameOfCategory = "auto";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
