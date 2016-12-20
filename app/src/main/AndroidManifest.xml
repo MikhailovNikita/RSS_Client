@@ -68,6 +68,9 @@
             </intent-filter>
 
         </activity>
+
+        <service android:name=".BackgroundDownloadService" android:label="service"/>
+
     </application>
 
 </manifest>

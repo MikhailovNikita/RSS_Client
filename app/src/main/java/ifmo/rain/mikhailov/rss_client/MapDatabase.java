@@ -148,7 +148,7 @@ public class MapDatabase extends SQLiteOpenHelper {
         sqLiteDatabase.delete(TABLE_NAME, RSS_LINK + " = ?", new String[]{rssChannel});
     }
 
-    public String getDate(SQLiteDatabase sqLiteDatabase, String rssLink) throws FileNotFoundException {
+    public String getDate(SQLiteDatabase sqLiteDatabase, String rssLink) {
         Date date = new Date();
         String response = date.toString();
 
@@ -169,7 +169,7 @@ public class MapDatabase extends SQLiteOpenHelper {
             if (cursor != null) cursor.close();
         }
 
-        throw new FileNotFoundException();
+        return response;
     }
 
     public void updateDate(SQLiteDatabase sqLiteDatabase, String newDate, String rssLink){

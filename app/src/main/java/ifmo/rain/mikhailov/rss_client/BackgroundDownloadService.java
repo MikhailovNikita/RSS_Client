@@ -25,7 +25,8 @@ public class BackgroundDownloadService extends Service {
     final ArrayList<RSSItem> items = new ArrayList<>();
     final FeedsDatabase dbHelper = FeedsDatabase.getInstance(this);
     final SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
-
+    final MapDatabase mapDBHelper = MapDatabase.getInstance(this);
+    final SQLiteDatabase sqLiteDatabaseMap = mapDBHelper.getReadableDatabase();
 
     @Nullable
     @Override
@@ -35,6 +36,7 @@ public class BackgroundDownloadService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d("SERVICE", "Service launched");
         doSomething();
         return super.onStartCommand(intent, flags, startId);
     }
@@ -44,10 +46,10 @@ public class BackgroundDownloadService extends Service {
 
 
         List<String> links = new ArrayList<>();
-        MapDatabase mapDBHelper = MapDatabase.getInstance(this);
-        SQLiteDatabase sqLiteDatabase = mapDBHelper.getReadableDatabase();
+
+
         try {
-            links = mapDBHelper.getAll(sqLiteDatabase);
+            links = mapDBHelper.getAll(sqLiteDatabaseMap);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -78,7 +80,12 @@ public class BackgroundDownloadService extends Service {
                         for (RSSItem item : list) {
                             Date recordingDate = item.getPubDate();
 
-                            dbHelper.put(sqLiteDatabase, item, curLink, "CATEGORY NAME");
+
+                            if (recordingDate.before(new Date(mapDBHelper.getDate(sqLiteDatabaseMap, curLink)))) {
+                                Log.d("NEWS ADDED", item.getTitle());
+                                dbHelper.put(sqLiteDatabase, item, curLink, "CATEGORY NAME");
+                            }
+
                         }
                     }
                 });
