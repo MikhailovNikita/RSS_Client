@@ -1,4 +1,4 @@
-package ifmo.rain.mikhailov.rss_client;
+package ifmo.rain.mikhailov.rss_client.fragments;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +17,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Date;
+
+import ifmo.rain.mikhailov.rss_client.AsyncRSSLoader;
+import ifmo.rain.mikhailov.rss_client.R;
+import ifmo.rain.mikhailov.rss_client.RSSItem;
 
 /**
  * A simple {@link Fragment} subclass.

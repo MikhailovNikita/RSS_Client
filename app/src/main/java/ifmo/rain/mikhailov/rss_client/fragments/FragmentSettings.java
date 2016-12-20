@@ -1,4 +1,4 @@
-package ifmo.rain.mikhailov.rss_client;
+package ifmo.rain.mikhailov.rss_client.fragments;
 
 import android.content.Context;
 import android.net.Uri;

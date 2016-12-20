@@ -1,14 +1,10 @@
 package ifmo.rain.mikhailov.rss_client;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,14 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Date;
-
 import ifmo.rain.mikhailov.rss_client.fragments.FragmentMain;
+import ifmo.rain.mikhailov.rss_client.fragments.FragmentSettings;
 import ifmo.rain.mikhailov.rss_client.settings.ArrayOfRss;
-import ifmo.rain.mikhailov.rss_client.settings.ChanelRss;
 import ifmo.rain.mikhailov.rss_client.settings.SettingsOfRssChanel;
 
 
