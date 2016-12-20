@@ -130,7 +130,8 @@ public class MainActivity extends AppCompatActivity
             }
             case R.id.nav_settings:{
                 nameOfGroup = "main";
-                Ftrans.replace(R.id.content_main, fSettings);
+                Intent intent = new Intent(this, FragmentSettings.class);
+                startActivity(intent);
                 break;
             }
             case R.id.nav_business: {
