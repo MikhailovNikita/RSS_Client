@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_edit_rss_chanel"
     android:layout_width="match_parent"
@@ -16,9 +17,12 @@
         android:height="20dp"/>
     <EditText
         android:id="@+id/editRssName"
-        android:layout_width="wrap_content"
+        android:layout_width="232dp"
+        android:width="100dp"
         android:layout_height="wrap_content"
-        android:height="20dp"/>
+        android:height="30dp"
+        style="@style/Widget.AppCompat.EditText"
+        android:singleLine="true" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,14 +30,20 @@
         android:height="20dp"/>
     <EditText
         android:id="@+id/editRss"
-        android:layout_width="wrap_content"
+        android:layout_width="230dp"
+        android:width="100dp"
         android:layout_height="wrap_content"
-        android:height="20dp"/>
+        android:height="30dp"
+        style="@style/Widget.AppCompat.EditText"
+        android:singleLine="true" />
+
     <Button
         android:id="@+id/endOfEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onMyButtonClick"
-        android:text="@string/save_changes"/>
+        android:text="@string/save_changes"
+        style="@android:style/Widget.Button"
+        android:elevation="10dp" />
 
 </LinearLayout>

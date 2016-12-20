@@ -28,4 +28,7 @@
     <string name="save_changes">save changes</string>
     <string name="title_activity_add_rss_chanel">AddRssChanel</string>
     <string name="add_changes">Add changes</string>
+    <string name="More">Подробнее</string>
+    <string name="rss_client">Rss Client</string>
+    <string name="https_github_com_mikhailovnikita_rss_client">https://github.com/MikhailovNikita/RSS_Client/</string>
 </resources>
