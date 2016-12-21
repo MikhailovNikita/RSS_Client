@@ -83,7 +83,8 @@ public class BackgroundDownloadService extends Service {
                     public void processFinish(ArrayList<RSSItem> list) {
                         Date lastPubDate = new Date(mapDBHelper.getDate(sqLiteDatabaseMap, curLink));
                         Date newDate = lastPubDate;
-
+                        boolean isThereAnyNews = false;
+                        String newsExample = null;
                         for (RSSItem item : list) {
                             Date recordingDate = item.getPubDate();
 
@@ -92,27 +93,35 @@ public class BackgroundDownloadService extends Service {
                             Log.d("AsLoader", mapDBHelper.getDate(sqLiteDatabaseMap, curLink));
 
 
-                            if (recordingDate.after(lastPubDate)) {
+                             if (recordingDate.after(lastPubDate)) {
                                 Log.d("NEWS ADDED", item.getTitle());
                                 if(recordingDate.after(newDate)){
                                     newDate = recordingDate;
+                                    isThereAnyNews = true;
+                                    newsExample = item.getTitle();
                                 }
                                 dbHelper.put(sqLiteDatabase, item, curLink, "CATEGORY NAME");
                             }
 
                         }
 
+                        //I WILL NEVER HARDCODE STRINGS AGAIN
+                        //I WILL NEVER HARDCODE STRINGS AGAIN
+                        //.....
+                        //I WILL NEVER HARDCODE STRINGS AGAIN
+                        if(mapDBHelper.getCategoryByLink(sqLiteDatabaseMap, curLink).equals("main")
+                                && isThereAnyNews){
+                           showNotification(newsExample);
+                        }
                         mapDBHelper.updateDate(sqLiteDatabaseMap, newDate.toString(), curLink);
                     }
                 });
                 asyncRSSLoader.execute(link);
             }
-
-            showNotification();
         }
     }
 
-    private void showNotification() {
+    private void showNotification(String newsTitle) {
         Context context = getApplicationContext();
 
         Intent notificationIntent = new Intent(context, MainActivity.class);
@@ -129,8 +138,8 @@ public class BackgroundDownloadService extends Service {
                 .setTicker("123")
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)
-                .setContentTitle("-----")
-                .setContentText("+++++");
+                .setContentTitle("BREAKING NEWS")
+                .setContentText(newsTitle);
 
         Notification notification = builder.build();
 

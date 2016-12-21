@@ -134,11 +134,11 @@ public class MapDatabase extends SQLiteOpenHelper {
 
     public void put(SQLiteDatabase sqLiteDatabase, String category, String link, String name) {
         ContentValues cv = new ContentValues();
-        SimpleDateFormat sdf  = new SimpleDateFormat("MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
         Date date = new Date();
-        try{
+        try {
             date = sdf.parse("Jan 10 01:01:01 GMT+03:00 1000");
-        }catch(ParseException e){
+        } catch (ParseException e) {
             Log.d("PARSE", "FUCKED UP");
             e.printStackTrace();
         }
@@ -183,12 +183,35 @@ public class MapDatabase extends SQLiteOpenHelper {
         return response;
     }
 
-    public void updateDate(SQLiteDatabase sqLiteDatabase, String newDate, String rssLink){
+    public void updateDate(SQLiteDatabase sqLiteDatabase, String newDate, String rssLink) {
         ContentValues cv = new ContentValues();
         cv.put(RSS_LAST_DATE, newDate);
 
         sqLiteDatabase.update(TABLE_NAME, cv, RSS_LINK + " = ?", new String[]{rssLink});
 
+    }
+
+    public String getCategoryByLink(SQLiteDatabase sqLiteDatabase, String link) {
+        String response = "garbage";
+        Cursor cursor= null;
+
+        try {
+            cursor = sqLiteDatabase.query(TABLE_NAME, new String[]{RSS_CATEGORY},
+                    RSS_LINK + " = ?", new String[]{link}, null, null, null);
+
+            if(cursor != null && cursor.moveToFirst()){
+                response = cursor.getString(0);
+
+                return response;
+            }
+
+
+
+        }finally{
+            if(cursor != null) cursor.close();
+        }
+
+        return response;
     }
 
 
