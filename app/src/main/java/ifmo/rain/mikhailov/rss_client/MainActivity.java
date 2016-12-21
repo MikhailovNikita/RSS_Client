@@ -238,6 +238,11 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         fMain = new FragmentMain();
         android.support.v4.app.FragmentTransaction Ftrans = getSupportFragmentManager().beginTransaction();
+        if (nameOfGroup.equals("bookmark")){
+            nameOfGroup="main";
+            TextView toolBarView = (TextView) findViewById(R.id.ToolbarView);
+            toolBarView.setText("Главные Новости");
+        }
         fMain.nameOfCategory = nameOfGroup;
         Ftrans.replace(R.id.content_main, fMain);
         Ftrans.commit();

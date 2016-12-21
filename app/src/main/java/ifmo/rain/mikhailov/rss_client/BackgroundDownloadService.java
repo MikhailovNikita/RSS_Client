@@ -30,7 +30,7 @@ public class BackgroundDownloadService extends Service {
     final SQLiteDatabase sqLiteDatabaseMap = mapDBHelper.getWritableDatabase();
     final FeedsDatabase dbHelper = FeedsDatabase.getInstance(this);
     final SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
-    final static int NOTIF_CONST = 42;
+    final static int NOTIFY_CONST = 42;
 
 
     @Nullable
@@ -77,6 +77,8 @@ public class BackgroundDownloadService extends Service {
             Log.d("TAG", "Run launched");
 
             for (String link : this.rssLinks) {
+                if(link.equals("bookmark")) continue;
+
                 final String curLink = link;
                 Log.d("CURRENT LINK", curLink);
                 AsyncRSSLoader asyncRSSLoader = new AsyncRSSLoader(new AsyncRSSLoader.AsyncResponse() {
@@ -86,6 +88,7 @@ public class BackgroundDownloadService extends Service {
                         Date newDate = lastPubDate;
                         boolean isThereAnyNews = false;
                         String newsExample = null;
+
                         for (RSSItem item : list) {
                             Date recordingDate = item.getPubDate();
 
@@ -148,6 +151,6 @@ public class BackgroundDownloadService extends Service {
         NotificationManager notificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(NOTIF_CONST, notification);
+        notificationManager.notify(NOTIFY_CONST, notification);
     }
 }

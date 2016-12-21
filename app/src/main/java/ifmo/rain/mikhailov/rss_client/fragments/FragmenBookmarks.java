@@ -82,11 +82,11 @@ public class FragmenBookmarks extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragmnent_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_fragmen_bookmarks, container, false);
         FeedsDatabase databaseOfFeed = FeedsDatabase.getInstance(this.getContext());
         SQLiteDatabase db = databaseOfFeed.getReadableDatabase();
         try {
-            rssItems = databaseOfFeed.get(db, "sss");
+            rssItems = databaseOfFeed.get(db, "bookmark");
             Log.d("Catch BD", String.valueOf(rssItems.size()));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -98,8 +98,10 @@ public class FragmenBookmarks extends Fragment {
             public void onItemClick(AdapterView<?> av, View view, int index,
                                     long arg3) {
                 selectedRssItem = rssItems.get(index);
+
                 Intent intent = new Intent(
                         "ifmo.rain.mikhailov.displayRssItem");
+                intent.putExtra("nameOfFragment", "bookmark");
                 startActivity(intent);
             }
         });
@@ -115,16 +117,6 @@ public class FragmenBookmarks extends Fragment {
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
     @Override
     public void onDetach() {

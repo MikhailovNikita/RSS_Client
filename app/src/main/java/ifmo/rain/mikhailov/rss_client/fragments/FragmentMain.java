@@ -159,6 +159,7 @@ public class FragmentMain extends Fragment {
                 selectedRssItem = rssItems.get(index);
                 Intent intent = new Intent(
                         "ifmo.rain.mikhailov.displayRssItem");
+                intent.putExtra("nameOfFragment", "main");
                 startActivity(intent);
             }
         });
