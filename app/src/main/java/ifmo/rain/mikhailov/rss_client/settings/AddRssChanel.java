@@ -20,6 +20,15 @@ public class AddRssChanel extends AppCompatActivity {
     EditText editTRss;
     String name;
 
+
+
+    private static final String KEY_OF_GROUP = "KEY_OF_GROUP";
+
+    @Override
+    public void onSaveInstanceState(Bundle saveInstanceState) {
+        saveInstanceState.putString(KEY_OF_GROUP, name);
+        super.onSaveInstanceState(saveInstanceState);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +41,10 @@ public class AddRssChanel extends AppCompatActivity {
                 name = extras.getString("nameOfGroup");
             }
         } else {
-            name = (String) savedInstanceState.getSerializable("nameOfGroup");
+            name = savedInstanceState.getString(KEY_OF_GROUP);
+            if (name==null) {
+                name = (String) savedInstanceState.getSerializable("nameOfGroup");
+            }
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

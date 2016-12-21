@@ -52,6 +52,9 @@ public class FragmentMain extends Fragment {
     private String mParam1;
     private String mParam2;
 
+
+
+
     public static RSSItem selectedRssItem = null;
     String feedUrl;
     ListView rssListView = null;
@@ -60,6 +63,15 @@ public class FragmentMain extends Fragment {
     public String nameOfCategory;
     View view;
     private OnFragmentInteractionListener mListener;
+
+    private static final String KEY_OF_GROUP = "KEY_OF_GROUP";
+
+    @Override
+    public void onSaveInstanceState(Bundle saveInstanceState) {
+        saveInstanceState.putString(KEY_OF_GROUP, nameOfCategory);
+        super.onSaveInstanceState(saveInstanceState);
+    }
+
 
     public FragmentMain() {
         // Required empty public constructor
@@ -91,9 +103,8 @@ public class FragmentMain extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        if (savedInstanceState != null) {
+            nameOfCategory = savedInstanceState.getString(KEY_OF_GROUP);
         }
     }
 

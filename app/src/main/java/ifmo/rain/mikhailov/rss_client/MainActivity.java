@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import ifmo.rain.mikhailov.rss_client.fragments.FragmenBookmarks;
 import ifmo.rain.mikhailov.rss_client.fragments.FragmentMain;
 import ifmo.rain.mikhailov.rss_client.fragments.FragmentSettings;
 import ifmo.rain.mikhailov.rss_client.initialize.InitializeDatabaseByCommonObject;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     public FragmentMain fMain;
+    public FragmenBookmarks fBook;
     public SettingsOfRssChanel fSettings;
     public String nameOfGroup = null;
     public static ArrayOfRss globalRssChanel = new ArrayOfRss();
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         fMain = new FragmentMain();
+        fBook = new FragmenBookmarks();
     }
 
     @Override
@@ -131,7 +134,7 @@ public class MainActivity extends AppCompatActivity
         InitializeDatabaseByCommonObject l = new InitializeDatabaseByCommonObject(MainActivity.this, nameOfGroup);
         l.checkThisGroup();
         fMain = new FragmentMain();
-        fSettings = new SettingsOfRssChanel();
+        fBook = new FragmenBookmarks();
         android.support.v4.app.FragmentTransaction Ftrans = getSupportFragmentManager().beginTransaction();
         TextView toolBarView = (TextView) findViewById(R.id.ToolbarView);
         toolBarView.setTextSize(28);
@@ -158,10 +161,10 @@ public class MainActivity extends AppCompatActivity
                 break;
             }
             case R.id.nav_bookmarks:{
+                fBook.nameOfCategory = "boorkmark";
                 nameOfGroup = "bookmark";
                 toolBarView.setText("Закладки");
-                Intent intent = new Intent(this, FragmentSettings.class);
-                startActivity(intent);
+                Ftrans.replace(R.id.content_main, fBook);
                 break;
             }
             case R.id.nav_business: {

@@ -23,25 +23,44 @@ import ifmo.rain.mikhailov.rss_client.RSSItem;
 
 public class SettingActivityForRss extends Activity {
     final String local = "nameOfGroup";
-    public String name;
+    public String name = null;
     public static ChanelRss selectedRss = null;
     ListView rssListView;
     MapDatabase database = MapDatabase.getInstance(this);
     List<ChanelRss> ListRss;
+
+
+    private static final String KEY_OF_GROUP = "KEY_OF_GROUP";
+
+    @Override
+    public void onSaveInstanceState(Bundle saveInstanceState) {
+        saveInstanceState.putString(KEY_OF_GROUP, name);
+        super.onSaveInstanceState(saveInstanceState);
+    }
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        name = savedInstanceState.getString(KEY_OF_GROUP);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SQLiteDatabase db = database.getReadableDatabase();
 
-        if (savedInstanceState == null) {
-            Bundle extras = getIntent().getExtras();
-            if(extras == null) {
-                name = null;
+        if (name==null) {
+            if (savedInstanceState == null) {
+                Bundle extras = getIntent().getExtras();
+                if (extras == null) {
+                    name = null;
+                } else {
+                    name = extras.getString(local);
+                }
             } else {
-                name = extras.getString(local);
+                name = savedInstanceState.getString(KEY_OF_GROUP);
+                if (name==null) {
+                    name = (String) savedInstanceState.getSerializable(local);
+                }
             }
-        } else {
-            name = (String) savedInstanceState.getSerializable(local);
         }
         setContentView(R.layout.activity_setting_for_rss);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab2);

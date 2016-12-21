@@ -215,5 +215,29 @@ public class MapDatabase extends SQLiteOpenHelper {
 
     }
 
+    public String getChannelNameByLink(SQLiteDatabase sqLiteDatabase, String link) {
+        String response = "garbage";
+        Cursor cursor= null;
+
+        try {
+            cursor = sqLiteDatabase.query(TABLE_NAME, new String[]{RSS_CATEGORY},
+                    RSS_NAME + " = ?", new String[]{link}, null, null, null);
+
+            if(cursor != null && cursor.moveToFirst()){
+                response = cursor.getString(0);
+
+                return response;
+            }
+
+
+
+        }finally{
+            if(cursor != null) cursor.close();
+        }
+
+        return response;
+
+    }
+
 
 }

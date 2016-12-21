@@ -2,6 +2,7 @@ package ifmo.rain.mikhailov.rss_client;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -27,7 +28,7 @@ public class RSSItemDisplayer extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rss_item_displayer);
 
-        RSSItem selectedRssItem = FragmentMain.selectedRssItem;
+        final RSSItem selectedRssItem = FragmentMain.selectedRssItem;
 
         TextView titleView = (TextView) findViewById(R.id.titleTextView);
         TextView contentView = (TextView) findViewById(R.id.contentTextView);
@@ -37,6 +38,9 @@ public class RSSItemDisplayer extends Activity {
             public void onClick(View view) {
                 // --TODO ADD TO BOOKBARKS
                 FloatingActionButton v = (FloatingActionButton) view;
+                FeedsDatabase databaseOfFeed = FeedsDatabase.getInstance(RSSItemDisplayer.this);
+                SQLiteDatabase db = databaseOfFeed.getWritableDatabase();
+                databaseOfFeed.put(db, selectedRssItem, "sss", "bookmark");
                 Toast.makeText(RSSItemDisplayer.this, "Запись добавлена в закладки",Toast.LENGTH_SHORT).show();
             }
         });

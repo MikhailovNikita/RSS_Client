@@ -50,7 +50,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".settings.EditRssChanel">
+        <activity
+            android:name=".settings.EditRssChanel"
+            android:label="Display Rss Item">>
+
             <intent-filter>
                 <action android:name="ifmo.rain.mikhailov.settings.EditRssChanel" />
 

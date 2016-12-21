@@ -30,6 +30,7 @@ public class BackgroundDownloadService extends Service {
     final SQLiteDatabase sqLiteDatabaseMap = mapDBHelper.getWritableDatabase();
     final FeedsDatabase dbHelper = FeedsDatabase.getInstance(this);
     final SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
+    final static int NOTIF_CONST = 42;
 
 
     @Nullable
@@ -111,7 +112,7 @@ public class BackgroundDownloadService extends Service {
                         //I WILL NEVER HARDCODE STRINGS AGAIN
                         if(mapDBHelper.getCategoryByLink(sqLiteDatabaseMap, curLink).equals("main")
                                 && isThereAnyNews){
-                           showNotification(newsExample);
+                           showNotification(newsExample,mapDBHelper.getChannelNameByLink(sqLiteDatabaseMap,curLink));
                         }
                         mapDBHelper.updateDate(sqLiteDatabaseMap, newDate.toString(), curLink);
                     }
@@ -122,7 +123,7 @@ public class BackgroundDownloadService extends Service {
         }
     }
 
-    private void showNotification(String newsTitle) {
+    private void showNotification(String newsTitle, String channelName) {
         Context context = getApplicationContext();
 
         Intent notificationIntent = new Intent(context, MainActivity.class);
@@ -136,10 +137,10 @@ public class BackgroundDownloadService extends Service {
         builder.setContentIntent(contentIntent)
                 .setSmallIcon(R.drawable.ic_menu_camera)
                 .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.ic_menu_gallery))
-                .setTicker("123")
+                .setTicker("RSS Update")
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)
-                .setContentTitle("BREAKING NEWS")
+                .setContentTitle(channelName)
                 .setContentText(newsTitle);
 
         Notification notification = builder.build();
@@ -147,6 +148,6 @@ public class BackgroundDownloadService extends Service {
         NotificationManager notificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(228, notification);
+        notificationManager.notify(NOTIF_CONST, notification);
     }
 }
