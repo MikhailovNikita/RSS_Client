@@ -1,7 +1,6 @@
 package ifmo.rain.mikhailov.rss_client;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -19,8 +18,6 @@ import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
-import static ifmo.rain.mikhailov.rss_client.Constants.DEBUG_TAG_XML;
 
 /**
  * Created by Михайлов Никита on 18.12.2016.
@@ -41,10 +38,8 @@ public class AsyncRSSLoader extends AsyncTask<String, ArrayList<RSSItem>, ArrayL
     protected ArrayList<RSSItem> doInBackground(String... strings) {
         ArrayList<RSSItem> rssItems = new ArrayList<>();
 
-        RSSItem templateRSSItem = new RSSItem("TITLE", "DESCRIPTION",
-                new Date(), "LINK");
-
-        rssItems.add(templateRSSItem);
+        //RSSItem templateRSSItem = new RSSItem("TITLE", "DESCRIPTION", new Date(), "LINK");
+        //rssItems.add(templateRSSItem);
 
         try {
             URL url = new URL(strings[0]);
@@ -59,12 +54,9 @@ public class AsyncRSSLoader extends AsyncTask<String, ArrayList<RSSItem>, ArrayL
 
                 Document doc = docBuilder.parse(is);
                 doc.getDocumentElement().normalize();
-                Log.d(DEBUG_TAG_XML, "Root element: " + doc.getDocumentElement().getNodeName());
                 NodeList nodeList = doc.getElementsByTagName("item");
-                Log.d(DEBUG_TAG_XML, "God save us");
                 SimpleDateFormat dateFormat1 = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
                 SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
-
 
 
                 for (int i = 0; i < nodeList.getLength(); i++) {
@@ -90,18 +82,12 @@ public class AsyncRSSLoader extends AsyncTask<String, ArrayList<RSSItem>, ArrayL
                         }
                     }
 
-
-                    Log.d(DEBUG_TAG_XML, title);
-                    Log.d(DEBUG_TAG_XML, pubDate);
-
-
                     RSSItem rssItem = new RSSItem(title, description, publishDate, link);
-
-
-
                     rssItems.add(rssItem);
 
                 }
+            } else {
+                //TODO: add notification that attempt to establish connection failed
             }
         } catch (Exception e) {
             e.printStackTrace();

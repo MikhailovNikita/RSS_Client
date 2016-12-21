@@ -10,9 +10,12 @@ import android.util.Log;
 import android.util.Pair;
 
 import java.io.FileNotFoundException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static ifmo.rain.mikhailov.rss_client.MapDatabaseContract.RSS_CATEGORY;
 import static ifmo.rain.mikhailov.rss_client.MapDatabaseContract.RSS_LAST_DATE;
@@ -131,7 +134,15 @@ public class MapDatabase extends SQLiteOpenHelper {
 
     public void put(SQLiteDatabase sqLiteDatabase, String category, String link, String name) {
         ContentValues cv = new ContentValues();
+        SimpleDateFormat sdf  = new SimpleDateFormat("MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
         Date date = new Date();
+        try{
+            date = sdf.parse("Jan 10 01:01:01 GMT+03:00 1000");
+        }catch(ParseException e){
+            Log.d("PARSE", "FUCKED UP");
+            e.printStackTrace();
+        }
+
         cv.put(RSS_CATEGORY, category);
         cv.put(RSS_LINK, link);
         cv.put(RSS_NAME, name);
