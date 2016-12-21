@@ -118,6 +118,7 @@ public class BackgroundDownloadService extends Service {
                 });
                 asyncRSSLoader.execute(link);
             }
+
         }
     }
 
