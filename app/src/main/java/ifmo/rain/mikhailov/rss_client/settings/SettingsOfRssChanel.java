@@ -1,6 +1,5 @@
 package ifmo.rain.mikhailov.rss_client.settings;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -73,18 +72,18 @@ public class SettingsOfRssChanel extends Fragment {
         View view = inflater.inflate(R.layout.settings, container, false);
         final Spinner spinnerMain = (Spinner)view.findViewById(R.id.spinnerForMain);
         final Spinner spinnerPolitic = (Spinner)view.findViewById(R.id.spinnerForPolitic);
-        List<ChanelRss> spinnerForMain = new ArrayList<>();
-        spinnerForMain.add(new ChanelRss("Yandex News", "index.rss"));
-        spinnerForMain.add(new ChanelRss("Шаро Новости", "index.rss"));
-        spinnerForMain.add(new ChanelRss("Dudec SHOK NEWS", "index.rss"));
-        List<ChanelRss> spinnerForPolitic = new ArrayList<>();
-        spinnerForPolitic.add(new ChanelRss("Yandex News", "index.rss"));
+        List<ChannelRSS> spinnerForMain = new ArrayList<>();
+        spinnerForMain.add(new ChannelRSS("Yandex News", "index.rss"));
+        spinnerForMain.add(new ChannelRSS("Шаро Новости", "index.rss"));
+        spinnerForMain.add(new ChannelRSS("Dudec SHOK NEWS", "index.rss"));
+        List<ChannelRSS> spinnerForPolitic = new ArrayList<>();
+        spinnerForPolitic.add(new ChannelRSS("Yandex News", "index.rss"));
 
 
-        ArrayAdapter<ChanelRss> adapter = new ArrayAdapter<ChanelRss>(view.getContext(),
+        ArrayAdapter<ChannelRSS> adapter = new ArrayAdapter<>(view.getContext(),
                 R.layout.setting_spinner_item, spinnerForMain);
         spinnerMain.setAdapter(adapter);
-        adapter = new ArrayAdapter<ChanelRss>(view.getContext(),
+        adapter = new ArrayAdapter<>(view.getContext(),
                 R.layout.setting_spinner_item, spinnerForPolitic);
         spinnerPolitic.setAdapter(adapter);
 

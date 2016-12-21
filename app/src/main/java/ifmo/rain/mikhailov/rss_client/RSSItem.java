@@ -51,7 +51,7 @@ public class RSSItem {
     @Override
     public String toString() {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM 'at' HH:mm", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM 'в' HH:mm", Locale.getDefault());
 
         String result = getTitle() + "  \n" + sdf.format(this.getPubDate()) + " ";
         return result;

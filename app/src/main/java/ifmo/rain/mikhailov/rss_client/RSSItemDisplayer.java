@@ -15,8 +15,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import ifmo.rain.mikhailov.rss_client.fragments.FragmenBookmarks;
+import ifmo.rain.mikhailov.rss_client.fragments.FragmentBookmarks;
 import ifmo.rain.mikhailov.rss_client.fragments.FragmentMain;
+
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_BOOKMARK;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_MAIN;
 
 /**
  * Created by Михайлов Никита on 17.12.2016.
@@ -24,30 +27,31 @@ import ifmo.rain.mikhailov.rss_client.fragments.FragmentMain;
  */
 
 
-
 public class RSSItemDisplayer extends Activity {
     private String link;
     private static final String KEY_OF_TITLE = "KEY_OF_TITLE";
     private static final String KEY_OF_DATA = "KEY_OF_DATA";
-    private static final String KEY_OF_DISCR = "KEY_OF_DISCR";
+    private static final String KEY_OF_DESCRIPTION = "KEY_OF_DESCRIPTION";
     private static final String KEY_OF_LINK = "KEY_OF_LINK";
     RSSItem selectedRssItemloc;
+
     @Override
     public void onSaveInstanceState(Bundle saveInstanceState) {
         saveInstanceState.putString(KEY_OF_TITLE, selectedRssItemloc.getTitle());
         saveInstanceState.putString(KEY_OF_DATA, selectedRssItemloc.getPubDate().toString());
-        saveInstanceState.putString(KEY_OF_DISCR, selectedRssItemloc.getDescription());
+        saveInstanceState.putString(KEY_OF_DESCRIPTION, selectedRssItemloc.getDescription());
         saveInstanceState.putString(KEY_OF_LINK, selectedRssItemloc.getLink());
         super.onSaveInstanceState(saveInstanceState);
     }
+
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         String title = savedInstanceState.getString(KEY_OF_TITLE);
-        String data = savedInstanceState.getString(KEY_OF_DATA);
-        String discr = savedInstanceState.getString(KEY_OF_DISCR);
-        String linl = savedInstanceState.getString(KEY_OF_LINK);
-        selectedRssItemloc = new RSSItem(title, discr, new Date(data), linl);
+        String date = savedInstanceState.getString(KEY_OF_DATA);
+        String description = savedInstanceState.getString(KEY_OF_DESCRIPTION);
+        String link = savedInstanceState.getString(KEY_OF_LINK);
+        selectedRssItemloc = new RSSItem(title, description, new Date(date), link);
     }
 
     @Override
@@ -69,12 +73,12 @@ public class RSSItemDisplayer extends Activity {
             name = (String) savedInstanceState.getSerializable("nameOfFragment");
         }
         if (name != null) {
-            if (name.equals("main")) {
+            if (name.equals(CATEGORY_MAIN)) {
                 selectedRssItemLocal = FragmentMain.selectedRssItem;
             } else {
-                selectedRssItemLocal = FragmenBookmarks.selectedRssItem;
+                selectedRssItemLocal = FragmentBookmarks.selectedRssItem;
             }
-        }else{
+        } else {
             selectedRssItemLocal = null;
         }
         if (selectedRssItemloc != null) selectedRssItemLocal = selectedRssItemloc;
@@ -86,15 +90,15 @@ public class RSSItemDisplayer extends Activity {
         fab3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // --TODO ADD TO BOOKBARKS
+                // --TODO ADD TO BOOKMARKS
                 FloatingActionButton v = (FloatingActionButton) view;
                 FeedsDatabase databaseOfFeed = FeedsDatabase.getInstance(RSSItemDisplayer.this);
                 SQLiteDatabase db = databaseOfFeed.getWritableDatabase();
-                databaseOfFeed.put(db, selectedRssItem, "bookmark", "bookmark");
-                Toast.makeText(RSSItemDisplayer.this, "Запись добавлена в закладки",Toast.LENGTH_SHORT).show();
+                databaseOfFeed.put(db, selectedRssItem, CATEGORY_BOOKMARK, CATEGORY_BOOKMARK);
+                Toast.makeText(RSSItemDisplayer.this, "Запись добавлена в закладки", Toast.LENGTH_SHORT).show();
             }
         });
-        Button button = (Button)findViewById(R.id.go_by_link);
+        Button button = (Button) findViewById(R.id.go_by_link);
         link = selectedRssItem.getLink();
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM 'at' HH:mm", Locale.ENGLISH);
         String title = "\n" + selectedRssItem.getTitle() + " \n\n";
@@ -103,14 +107,11 @@ public class RSSItemDisplayer extends Activity {
                 + sdf.format(selectedRssItem.getPubDate()) + "\n";
 
 
-
-
         titleView.setText(title);
         contentView.setText(content);
     }
 
-    public void go_by_link(View view)
-    {
+    public void go_by_link(View view) {
         Intent browserIntent = new
                 Intent(Intent.ACTION_VIEW, Uri.parse(link));
         startActivity(browserIntent);

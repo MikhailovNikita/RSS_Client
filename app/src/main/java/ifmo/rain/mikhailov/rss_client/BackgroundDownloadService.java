@@ -17,8 +17,12 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_BOOKMARK;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_MAIN;
 
 /**
  * Created by Михайлов Никита on 19.12.2016.
@@ -77,7 +81,7 @@ public class BackgroundDownloadService extends Service {
             Log.d("TAG", "Run launched");
 
             for (String link : this.rssLinks) {
-                if(link.equals("bookmark")) continue;
+                if(link.equals(CATEGORY_BOOKMARK)) continue;
 
                 final String curLink = link;
                 Log.d("CURRENT LINK", curLink);
@@ -92,12 +96,7 @@ public class BackgroundDownloadService extends Service {
                         for (RSSItem item : list) {
                             Date recordingDate = item.getPubDate();
 
-                            Log.d("AsLoader", "==============================================");
-                            Log.d("AsLoader", recordingDate.toString());
-                            Log.d("AsLoader", mapDBHelper.getDate(sqLiteDatabaseMap, curLink));
-
-
-                             if (recordingDate.after(lastPubDate)) {
+                            if (recordingDate.after(lastPubDate)) {
                                 Log.d("NEWS ADDED", item.getTitle());
                                 if(recordingDate.after(newDate)){
                                     newDate = recordingDate;
@@ -109,11 +108,8 @@ public class BackgroundDownloadService extends Service {
 
                         }
 
-                        //I WILL NEVER HARDCODE STRINGS AGAIN
-                        //I WILL NEVER HARDCODE STRINGS AGAIN
-                        //.....
-                        //I WILL NEVER HARDCODE STRINGS AGAIN
-                        if(mapDBHelper.getCategoryByLink(sqLiteDatabaseMap, curLink).equals("main")
+
+                        if(mapDBHelper.getCategoryByLink(sqLiteDatabaseMap, curLink).equals(CATEGORY_MAIN)
                                 && isThereAnyNews){
                            showNotification(newsExample,mapDBHelper.getChannelNameByLink(sqLiteDatabaseMap,curLink));
                         }

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
@@ -16,18 +15,16 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import ifmo.rain.mikhailov.rss_client.MainActivity;
 import ifmo.rain.mikhailov.rss_client.MapDatabase;
 import ifmo.rain.mikhailov.rss_client.R;
-import ifmo.rain.mikhailov.rss_client.RSSItem;
 
 public class SettingActivityForRss extends Activity {
     final String local = "nameOfGroup";
     public String name = null;
-    public static ChanelRss selectedRss = null;
+    public static ChannelRSS selectedRss = null;
     ListView rssListView;
     MapDatabase database = MapDatabase.getInstance(this);
-    List<ChanelRss> ListRss;
+    List<ChannelRSS> ListRss;
 
 
     private static final String KEY_OF_GROUP = "KEY_OF_GROUP";
@@ -37,17 +34,19 @@ public class SettingActivityForRss extends Activity {
         saveInstanceState.putString(KEY_OF_GROUP, name);
         super.onSaveInstanceState(saveInstanceState);
     }
+
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         name = savedInstanceState.getString(KEY_OF_GROUP);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SQLiteDatabase db = database.getReadableDatabase();
 
-        if (name==null) {
+        if (name == null) {
             if (savedInstanceState == null) {
                 Bundle extras = getIntent().getExtras();
                 if (extras == null) {
@@ -57,7 +56,7 @@ public class SettingActivityForRss extends Activity {
                 }
             } else {
                 name = savedInstanceState.getString(KEY_OF_GROUP);
-                if (name==null) {
+                if (name == null) {
                     name = (String) savedInstanceState.getSerializable(local);
                 }
             }
@@ -77,10 +76,11 @@ public class SettingActivityForRss extends Activity {
         ListRss = new ArrayList<>();
         try {
             pairOfRss = database.get(db, name);
-        } catch (FileNotFoundException e){
-            pairOfRss.add(new Pair("no one chanel founded", "no one chanel founded"));
+        } catch (FileNotFoundException e) {
+            pairOfRss.add(new Pair<>("no one chanel founded", "no one chanel founded"));
         }
-        if (pairOfRss.size() == 0) pairOfRss.add(new Pair("no one chanel founded", "no one chanel founded"));
+        if (pairOfRss.size() == 0)
+            pairOfRss.add(new Pair<>("no one chanel founded", "no one chanel founded"));
         rssListView = (ListView) findViewById(R.id.rssSettingsView);
         rssListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> av, View view, int index,
@@ -93,12 +93,12 @@ public class SettingActivityForRss extends Activity {
                 startActivity(intent);
             }
         });
-        for (int i = 0; i < pairOfRss.size(); ++i){
-            ListRss.add(new ChanelRss(pairOfRss.get(i).second, pairOfRss.get(i).first));
+        for (int i = 0; i < pairOfRss.size(); i++) {
+            ListRss.add(new ChannelRSS(pairOfRss.get(i).second, pairOfRss.get(i).first));
         }
 
 
-        ArrayAdapter<ChanelRss> adapter = new ArrayAdapter<ChanelRss>(this, R.layout.settings_list_item, ListRss);
+        ArrayAdapter<ChannelRSS> adapter = new ArrayAdapter<>(this, R.layout.settings_list_item, ListRss);
         rssListView.setAdapter(adapter);
     }
 
@@ -110,15 +110,15 @@ public class SettingActivityForRss extends Activity {
         ListRss = new ArrayList<>();
         try {
             pairOfRss = database.get(db, name);
-        } catch (FileNotFoundException e){
-            pairOfRss.add(new Pair("no one chanel founded", "no one chanel founded"));
+        } catch (FileNotFoundException e) {
+            pairOfRss.add(new Pair<>("no one chanel founded", "no one chanel founded"));
         }
-        for (int i = 0; i < pairOfRss.size(); ++i){
-            ListRss.add(new ChanelRss(pairOfRss.get(i).second, pairOfRss.get(i).first));
+        for (int i = 0; i < pairOfRss.size(); i++) {
+            ListRss.add(new ChannelRSS(pairOfRss.get(i).second, pairOfRss.get(i).first));
         }
 
 
-        ArrayAdapter<ChanelRss> adapter = new ArrayAdapter<ChanelRss>(this, R.layout.settings_list_item, ListRss);
+        ArrayAdapter<ChannelRSS> adapter = new ArrayAdapter<>(this, R.layout.settings_list_item, ListRss);
         rssListView.setAdapter(adapter);
     }
 

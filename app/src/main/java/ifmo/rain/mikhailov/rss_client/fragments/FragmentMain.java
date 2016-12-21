@@ -1,11 +1,9 @@
 package ifmo.rain.mikhailov.rss_client.fragments;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.util.Pair;
@@ -15,24 +13,20 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import ifmo.rain.mikhailov.rss_client.AsyncRSSLoader;
 import ifmo.rain.mikhailov.rss_client.FeedsDatabase;
-import ifmo.rain.mikhailov.rss_client.MainActivity;
 import ifmo.rain.mikhailov.rss_client.MapDatabase;
 import ifmo.rain.mikhailov.rss_client.R;
 import ifmo.rain.mikhailov.rss_client.RSSItem;
 import ifmo.rain.mikhailov.rss_client.initialize.InitializeDatabaseByCommonObject;
-import ifmo.rain.mikhailov.rss_client.settings.AddRssChanel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,14 +46,11 @@ public class FragmentMain extends Fragment {
     private String mParam1;
     private String mParam2;
 
-
-
-
     public static RSSItem selectedRssItem = null;
     String feedUrl;
     ListView rssListView = null;
     ArrayList<RSSItem> rssItems = new ArrayList<>();
-    ArrayAdapter<RSSItem> aa;
+    ArrayAdapter<RSSItem> arrayAdapter;
     public String nameOfCategory;
     View view;
     private OnFragmentInteractionListener mListener;
@@ -83,7 +74,7 @@ public class FragmentMain extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmnentMain.
+     * @return A new instance of fragment FragmentMain.
      */
     // TODO: Rename and change types and number of parameters
 
@@ -123,7 +114,7 @@ public class FragmentMain extends Fragment {
         try {
             pairsOfRss = database.get(db, nameOfCategory);
         } catch (FileNotFoundException e){
-            pairsOfRss.add(new Pair("no one chanel founded", "no one chanel founded"));
+            pairsOfRss.add(new Pair<>("no one chanel founded", "no one chanel founded"));
         }
         List<String> rssName = new ArrayList<>();
         final List<String> rssLink = new ArrayList<>();
@@ -133,7 +124,7 @@ public class FragmentMain extends Fragment {
         }
         feedUrl = rssLink.get(0);
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(view.getContext(), R.layout.setting_spinner_item, rssName);
+                new ArrayAdapter<>(view.getContext(), R.layout.setting_spinner_item, rssName);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent,
@@ -168,8 +159,8 @@ public class FragmentMain extends Fragment {
         return view;
     }
     private void ViewList(View view){
-        aa = new ArrayAdapter<RSSItem>(view.getContext(), R.layout.list_item, rssItems);
-        rssListView.setAdapter(aa);
+        arrayAdapter = new ArrayAdapter<RSSItem>(view.getContext(), R.layout.list_item, rssItems);
+        rssListView.setAdapter(arrayAdapter);
     }
 
 
@@ -194,7 +185,7 @@ public class FragmentMain extends Fragment {
                     Log.d("GACHI", list.size() + " ");
                     rssItems.clear();
                     rssItems.addAll(list);
-                    aa.notifyDataSetChanged();
+                    arrayAdapter.notifyDataSetChanged();
                     FeedsDatabase databaseOfFeed = FeedsDatabase.getInstance(FragmentMain.this.getContext());
                     SQLiteDatabase db = databaseOfFeed.getReadableDatabase();
                     for (int i = 0; i < rssItems.size(); ++i) {

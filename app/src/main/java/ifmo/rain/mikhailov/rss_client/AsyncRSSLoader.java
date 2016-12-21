@@ -38,9 +38,6 @@ public class AsyncRSSLoader extends AsyncTask<String, ArrayList<RSSItem>, ArrayL
     protected ArrayList<RSSItem> doInBackground(String... strings) {
         ArrayList<RSSItem> rssItems = new ArrayList<>();
 
-        //RSSItem templateRSSItem = new RSSItem("TITLE", "DESCRIPTION", new Date(), "LINK");
-        //rssItems.add(templateRSSItem);
-
         try {
             URL url = new URL(strings[0]);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();

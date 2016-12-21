@@ -1,13 +1,12 @@
 package ifmo.rain.mikhailov.rss_client.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.SyncStateContract;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,22 +16,20 @@ import android.widget.ListView;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.List;
 
 import ifmo.rain.mikhailov.rss_client.FeedsDatabase;
-import ifmo.rain.mikhailov.rss_client.MapDatabase;
 import ifmo.rain.mikhailov.rss_client.R;
 import ifmo.rain.mikhailov.rss_client.RSSItem;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FragmenBookmarks.OnFragmentInteractionListener} interface
+ * {@link FragmentBookmarks.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FragmenBookmarks#newInstance} factory method to
+ * Use the {@link FragmentBookmarks#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmenBookmarks extends Fragment {
+public class FragmentBookmarks extends Fragment {
     public static RSSItem selectedRssItem = null;
     String feedUrl;
     ListView rssListView = null;
@@ -48,7 +45,7 @@ public class FragmenBookmarks extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public FragmenBookmarks() {
+    public FragmentBookmarks() {
         // Required empty public constructor
     }
 
@@ -58,11 +55,11 @@ public class FragmenBookmarks extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmenBookmarks.
+     * @return A new instance of fragment FragmentBookmarks.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmenBookmarks newInstance(String param1, String param2) {
-        FragmenBookmarks fragment = new FragmenBookmarks();
+    public static FragmentBookmarks newInstance(String param1, String param2) {
+        FragmentBookmarks fragment = new FragmentBookmarks();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -105,7 +102,7 @@ public class FragmenBookmarks extends Fragment {
                 startActivity(intent);
             }
         });
-        ArrayAdapter<RSSItem> aa = new ArrayAdapter<RSSItem>(view.getContext(), R.layout.list_item, rssItems);;
+        ArrayAdapter<RSSItem> aa = new ArrayAdapter<>(view.getContext(), R.layout.list_item, rssItems);;
         rssListView.setAdapter(aa);
         return view;
     }

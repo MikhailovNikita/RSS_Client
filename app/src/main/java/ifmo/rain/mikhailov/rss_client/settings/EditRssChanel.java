@@ -89,7 +89,6 @@ public class EditRssChanel extends Activity {
     {
         database.delete(db, linkToRss);
         database.put(db, nameOfGroup, editTRss.getText().toString(), editTRssName.getText().toString());
-        return;
     }
 
 

@@ -2,6 +2,7 @@ package ifmo.rain.mikhailov.rss_client;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,12 +16,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import ifmo.rain.mikhailov.rss_client.fragments.FragmenBookmarks;
+import ifmo.rain.mikhailov.rss_client.fragments.FragmentBookmarks;
 import ifmo.rain.mikhailov.rss_client.fragments.FragmentMain;
-import ifmo.rain.mikhailov.rss_client.fragments.FragmentSettings;
 import ifmo.rain.mikhailov.rss_client.initialize.InitializeDatabaseByCommonObject;
 import ifmo.rain.mikhailov.rss_client.settings.ArrayOfRss;
 import ifmo.rain.mikhailov.rss_client.settings.SettingsOfRssChanel;
+
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_AUTO;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_BOOKMARK;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_BUSINESS;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_COMPUTERS;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_CULTURE;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_INCIDENT;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_MAIN;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_POLITICS;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_SCIENCE;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_SOCIETY;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_SPORT;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_WORLD;
 
 
 /**
@@ -28,10 +41,11 @@ import ifmo.rain.mikhailov.rss_client.settings.SettingsOfRssChanel;
  */
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
+
 
     public FragmentMain fMain;
-    public FragmenBookmarks fBook;
+    public FragmentBookmarks fBook;
     public SettingsOfRssChanel fSettings;
     public String nameOfGroup = null;
     public static ArrayOfRss globalRssChanel = new ArrayOfRss();
@@ -44,6 +58,7 @@ public class MainActivity extends AppCompatActivity
         saveInstanceState.putString(KEY_OF_GROUP, nameOfGroup);
         super.onSaveInstanceState(saveInstanceState);
     }
+
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
@@ -55,7 +70,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (nameOfGroup == null) nameOfGroup = "main";
+        if (nameOfGroup == null) nameOfGroup = CATEGORY_MAIN;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         InitializeDatabaseByCommonObject l = new InitializeDatabaseByCommonObject(MainActivity.this, nameOfGroup);
@@ -91,7 +106,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         fMain = new FragmentMain();
-        fBook = new FragmenBookmarks();
+        fBook = new FragmentBookmarks();
     }
 
     @Override
@@ -128,105 +143,105 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         InitializeDatabaseByCommonObject l = new InitializeDatabaseByCommonObject(MainActivity.this, nameOfGroup);
         l.checkThisGroup();
         fMain = new FragmentMain();
-        fBook = new FragmenBookmarks();
-        android.support.v4.app.FragmentTransaction Ftrans = getSupportFragmentManager().beginTransaction();
+        fBook = new FragmentBookmarks();
+        android.support.v4.app.FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction();
         TextView toolBarView = (TextView) findViewById(R.id.ToolbarView);
         toolBarView.setTextSize(28);
-        switch (id){
-            case R.id.nav_Main:{
-                fMain.nameOfCategory = "main";
-                nameOfGroup = "main";
+        switch (id) {
+            case R.id.nav_Main: {
+                fMain.nameOfCategory = CATEGORY_MAIN;
+                nameOfGroup = CATEGORY_MAIN;
                 toolBarView.setText("Главные Новости");
-                Ftrans.replace(R.id.content_main, fMain);
+                fTrans.replace(R.id.content_main, fMain);
                 break;
             }
-            case R.id.nav_politics:{
-                fMain.nameOfCategory = "politic";
-                nameOfGroup = "politic";
+            case R.id.nav_politics: {
+                fMain.nameOfCategory = CATEGORY_POLITICS;
+                nameOfGroup = CATEGORY_POLITICS;
                 toolBarView.setText("Политика");
-                Ftrans.replace(R.id.content_main, fMain);
+                fTrans.replace(R.id.content_main, fMain);
                 break;
             }
-            case R.id.nav_society:{
-                fMain.nameOfCategory = "society";
+            case R.id.nav_society: {
+                fMain.nameOfCategory = CATEGORY_SOCIETY;
+                nameOfGroup = CATEGORY_SOCIETY;
                 toolBarView.setText("Общество");
-                nameOfGroup = "society";
-                Ftrans.replace(R.id.content_main, fMain);
+                fTrans.replace(R.id.content_main, fMain);
                 break;
             }
-            case R.id.nav_bookmarks:{
-                fBook.nameOfCategory = "boorkmark";
-                nameOfGroup = "bookmark";
+            case R.id.nav_bookmarks: {
+                fBook.nameOfCategory = CATEGORY_BOOKMARK;
+                nameOfGroup = CATEGORY_BOOKMARK;
                 toolBarView.setText("Закладки");
-                Ftrans.replace(R.id.content_main, fBook);
+                fTrans.replace(R.id.content_main, fBook);
                 break;
             }
             case R.id.nav_business: {
-                nameOfGroup = "business";
+                fMain.nameOfCategory = CATEGORY_BUSINESS;
+                nameOfGroup = CATEGORY_BUSINESS;
                 toolBarView.setText("Экономика");
-                fMain.nameOfCategory = "business";
-                Ftrans.replace(R.id.content_main, fMain);
+                fTrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_world: {
-                nameOfGroup = "world";
+                nameOfGroup = CATEGORY_WORLD;
+                fMain.nameOfCategory = CATEGORY_WORLD;
                 toolBarView.setText("Новости мира");
-                fMain.nameOfCategory = "world";
-                Ftrans.replace(R.id.content_main, fMain);
+                fTrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_sport: {
-                nameOfGroup = "sport";
+                nameOfGroup = CATEGORY_SPORT;
+                fMain.nameOfCategory = CATEGORY_SPORT;
                 toolBarView.setText("Спорт");
-                fMain.nameOfCategory = "sport";
-                Ftrans.replace(R.id.content_main, fMain);
+                fTrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_incident: {
-                nameOfGroup = "incident";
+                fMain.nameOfCategory = CATEGORY_INCIDENT;
+                nameOfGroup = CATEGORY_INCIDENT;
                 toolBarView.setText("Происшествия");
-                fMain.nameOfCategory = "incident";
-                Ftrans.replace(R.id.content_main, fMain);
+                fTrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_culture: {
-                nameOfGroup = "culture";
+                fMain.nameOfCategory = CATEGORY_CULTURE;
+                nameOfGroup = CATEGORY_CULTURE;
                 toolBarView.setText("Культура");
-                fMain.nameOfCategory = "culture";
-                Ftrans.replace(R.id.content_main, fMain);
+                fTrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_science: {
-                nameOfGroup = "science";
+                fMain.nameOfCategory = CATEGORY_SCIENCE;
+                nameOfGroup = CATEGORY_SCIENCE;
                 toolBarView.setText("Наука");
-                fMain.nameOfCategory = "science";
-                Ftrans.replace(R.id.content_main, fMain);
+                fTrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_computers: {
-                nameOfGroup = "computers";
+                nameOfGroup = CATEGORY_COMPUTERS;
+                fMain.nameOfCategory = CATEGORY_COMPUTERS;
                 toolBarView.setText("Компьютерные технологии");
                 toolBarView.setTextSize(20);
-                fMain.nameOfCategory = "computers";
-                Ftrans.replace(R.id.content_main, fMain);
+                fTrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_auto: {
-                nameOfGroup = "auto";
+                fMain.nameOfCategory = CATEGORY_AUTO;
+                nameOfGroup = CATEGORY_AUTO;
                 toolBarView.setText("Авто");
-                fMain.nameOfCategory = "auto";
-                Ftrans.replace(R.id.content_main, fMain);
+                fTrans.replace(R.id.content_main, fMain);
                 break;
             }
         }
 
-        Ftrans.commit();
+        fTrans.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -234,18 +249,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         fMain = new FragmentMain();
-        android.support.v4.app.FragmentTransaction Ftrans = getSupportFragmentManager().beginTransaction();
-        if (nameOfGroup.equals("bookmark")){
-            nameOfGroup="main";
+        android.support.v4.app.FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction();
+        if (nameOfGroup.equals(CATEGORY_BOOKMARK)) {
+            nameOfGroup = CATEGORY_MAIN;
             TextView toolBarView = (TextView) findViewById(R.id.ToolbarView);
             toolBarView.setText("Главные Новости");
         }
         fMain.nameOfCategory = nameOfGroup;
-        Ftrans.replace(R.id.content_main, fMain);
-        Ftrans.commit();
+        fTrans.replace(R.id.content_main, fMain);
+        fTrans.commit();
     }
 
 }

@@ -8,7 +8,21 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ifmo.rain.mikhailov.rss_client.Constants;
 import ifmo.rain.mikhailov.rss_client.MapDatabase;
+
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_AUTO;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_BOOKMARK;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_BUSINESS;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_COMPUTERS;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_CULTURE;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_INCIDENT;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_MAIN;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_POLITICS;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_SCIENCE;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_SOCIETY;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_SPORT;
+import static ifmo.rain.mikhailov.rss_client.Constants.CATEGORY_WORLD;
 
 /**
  * Created by user on 21.12.2016.
@@ -30,22 +44,20 @@ public class InitializeDatabaseByCommonObject {
         try {
             pairOfRss = database.get(db, nameOfGroup);
         } catch (FileNotFoundException e){
-            pairOfRss.add(new Pair("no one chanel founded", "no one chanel founded"));
+            pairOfRss.add(new Pair<>("no one chanel founded", "no one chanel founded"));
         }
         if (pairOfRss.size() == 0){
             tryAdd();
-        }else{
-            return;
         }
     }
 
     private void tryAdd(){
         SQLiteDatabase db = database.getReadableDatabase();
         switch (nameOfGroup){
-            case ("bookmark"):{
+            case (CATEGORY_BOOKMARK):{
                 break;
             }
-            case ("main"):{
+            case (CATEGORY_MAIN):{
                 database.put(db, nameOfGroup, "https://news.yandex.ru/index.rss", "Yandex");
                 database.put(db, nameOfGroup, "https://tjournal.ru/rss", "TJ");
                 database.put(db, nameOfGroup, "https://lenta.ru/rss/top7", "Lenta");
@@ -53,54 +65,54 @@ public class InitializeDatabaseByCommonObject {
                 database.put(db, nameOfGroup, "https://meduza.io/rss/all", "Meduza");
                 break;
             }
-            case ("politic"):{
+            case (CATEGORY_POLITICS):{
                 database.put(db, nameOfGroup, "https://lenta.ru/rss/news/world", "Lenta");
                 database.put(db, nameOfGroup, "https://news.yandex.ru/politics.rss", "Yandex");
                 database.put(db, nameOfGroup, "http://www.kommersant.ru/RSS/weekly.xml", "Коммерсант");
 
                 break;
             }
-            case ("society"):{
+            case (CATEGORY_SOCIETY):{
                 database.put(db, nameOfGroup, "https://lenta.ru/rss/news/style", "Lenta");
                 database.put(db, nameOfGroup, "https://news.yandex.ru/society.rss", "Yandex");
                 database.put(db, nameOfGroup, "https://www.kommersant.ru/RSS/section-society.xml", "Коммерсант");
                 break;
             }
-            case ("business"):{
+            case (CATEGORY_BUSINESS):{
                 database.put(db, nameOfGroup, "http://www.kommersant.ru/RSS/weekly.xml", "Коммерсант");
                 database.put(db, nameOfGroup, "https://news.yandex.ru/business.rss", "Yandex");
                 database.put(db, nameOfGroup, "https://lenta.ru/rss/news/economics", "Lenta");
                 break;
             }
-            case ("world"):{
+            case (CATEGORY_WORLD):{
                 database.put(db, nameOfGroup, "https://lenta.ru/rss/news/world", "Lenta");
                 database.put(db, nameOfGroup, "https://news.yandex.ru/world.rss", "Yandex");
                 database.put(db, nameOfGroup, "http://www.kommersant.ru/RSS/section-world.xml", "Коммерсант");
                 break;
-            }case ("sport"):{
+            }case (CATEGORY_SPORT):{
                 database.put(db, nameOfGroup, "https://news.yandex.ru/sport.rss", "Yandex");
                 database.put(db, nameOfGroup, "https://lenta.ru/rss/news/sport", "Lenta");
                 database.put(db, nameOfGroup, "http://www.kommersant.ru/RSS/section-sport.xml", "Коммерсант");
                 break;
-            }case ("incident"):{
+            }case (CATEGORY_INCIDENT):{
                 database.put(db, nameOfGroup, "https://lenta.ru/rss/news/media", "Lenta");
                 database.put(db, nameOfGroup, "https://news.yandex.ru/incident.rss", "Yandex");
                 database.put(db, nameOfGroup, "http://www.kommersant.ru/RSS/section-accidents.xml", "Коммерсант");
                 break;
-            }case ("culture"):{
+            }case (CATEGORY_CULTURE):{
                 database.put(db, nameOfGroup, "https://lenta.ru/rss/news/culture", "Lenta");
                 database.put(db, nameOfGroup, "https://news.yandex.ru/culture.rss", "Yandex");
                 database.put(db, nameOfGroup, "http://www.kommersant.ru/RSS/section-culture.xml", "Коммерсант");
                 break;
-            }case ("science"):{
+            }case (CATEGORY_SCIENCE):{
                 database.put(db, nameOfGroup, "https://lenta.ru/rss/news/science", "Lenta");
                 database.put(db, nameOfGroup, "https://news.yandex.ru/science.rss", "Yandex");
 
                 break;
-            }case ("computers"):{
+            }case (CATEGORY_COMPUTERS):{
                 database.put(db, nameOfGroup, "https://news.yandex.ru/computers.rss", "Yandex");
                 break;
-            }case ("auto"):{
+            }case (CATEGORY_AUTO):{
                 database.put(db, nameOfGroup, "http://www.kommersant.ru/RSS/auto.xml", "Коммерсант");
                 database.put(db, nameOfGroup, "https://news.yandex.ru/auto.rss", "Yandex");
                 break;

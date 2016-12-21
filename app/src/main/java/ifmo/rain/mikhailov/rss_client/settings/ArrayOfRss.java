@@ -7,19 +7,19 @@ import java.util.List;
  */
 
 public class ArrayOfRss {
-    List<ChanelRss> MainRss;
-    List<ChanelRss> PoliticRss;
-    List<ChanelRss> BusinessRss;
-    List<ChanelRss> SocietyRss;
-    List<ChanelRss> WorldRss;
-    List<ChanelRss> SportRss;
-    List<ChanelRss> IncidentRss;
-    List<ChanelRss> CultureRss;
-    List<ChanelRss> ScienceRss;
-    List<ChanelRss> ComputersRss;
-    List<ChanelRss> AutoRss;
+    List<ChannelRSS> MainRss;
+    List<ChannelRSS> PoliticRss;
+    List<ChannelRSS> BusinessRss;
+    List<ChannelRSS> SocietyRss;
+    List<ChannelRSS> WorldRss;
+    List<ChannelRSS> SportRss;
+    List<ChannelRSS> IncidentRss;
+    List<ChannelRSS> CultureRss;
+    List<ChannelRSS> ScienceRss;
+    List<ChannelRSS> ComputersRss;
+    List<ChannelRSS> AutoRss;
 
-    public void add(String name, ChanelRss rss){
+    public void add(String name, ChannelRSS rss){
         switch (name){
             case ("MainRss"):{
                 MainRss.add(rss);
