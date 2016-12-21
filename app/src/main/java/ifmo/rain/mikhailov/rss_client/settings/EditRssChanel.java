@@ -25,8 +25,8 @@ public class EditRssChanel extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String nameOfRss;
-        MapDatabase database = MapDatabase.getInstance(this);
-        SQLiteDatabase db = database.getWritableDatabase();
+        database = MapDatabase.getInstance(this);
+        db = database.getWritableDatabase();
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {

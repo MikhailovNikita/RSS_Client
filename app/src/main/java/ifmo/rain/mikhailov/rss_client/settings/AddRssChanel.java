@@ -44,7 +44,6 @@ public class AddRssChanel extends AppCompatActivity {
 
     public void onMyButtonClick2(View view)
     {
-        // --TODO save changes of Rss and RssName into BD with nameOfRss
         String linkToRss = editTRss.getText().toString();
         String rssName = editTRssName.getText().toString();
         MapDatabase database = MapDatabase.getInstance(AddRssChanel.this);
@@ -52,5 +51,4 @@ public class AddRssChanel extends AppCompatActivity {
         database.put(db, name, linkToRss, rssName);
         Toast.makeText(this, "Changes saved", Toast.LENGTH_SHORT).show();
     }
-
 }
