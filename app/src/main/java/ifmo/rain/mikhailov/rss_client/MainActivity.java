@@ -13,9 +13,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import ifmo.rain.mikhailov.rss_client.fragments.FragmentMain;
 import ifmo.rain.mikhailov.rss_client.fragments.FragmentSettings;
+import ifmo.rain.mikhailov.rss_client.initialize.InitializeDatabaseByCommonObject;
 import ifmo.rain.mikhailov.rss_client.settings.ArrayOfRss;
 import ifmo.rain.mikhailov.rss_client.settings.SettingsOfRssChanel;
 
@@ -40,7 +42,8 @@ public class MainActivity extends AppCompatActivity
         nameOfGroup = "main";
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        InitializeDatabaseByCommonObject l = new InitializeDatabaseByCommonObject(MainActivity.this, nameOfGroup);
+        l.checkThisGroup();
         FeedsDatabase dbHelper = FeedsDatabase.getInstance(this);
         SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
 
@@ -54,8 +57,14 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        FloatingActionButton fab4 = (FloatingActionButton) findViewById(R.id.fab4);
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        fab4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawer.openDrawer(GravityCompat.START);
+            }
+        });
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -103,79 +112,95 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        InitializeDatabaseByCommonObject l = new InitializeDatabaseByCommonObject(MainActivity.this, nameOfGroup);
+        l.checkThisGroup();
         fMain = new FragmentMain();
         fSettings = new SettingsOfRssChanel();
         android.support.v4.app.FragmentTransaction Ftrans = getSupportFragmentManager().beginTransaction();
-
+        TextView toolBarView = (TextView) findViewById(R.id.ToolbarView);
+        toolBarView.setTextSize(28);
         switch (id){
             case R.id.nav_Main:{
                 fMain.nameOfCategory = "main";
                 nameOfGroup = "main";
+                toolBarView.setText("Главные Новости");
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_politics:{
                 fMain.nameOfCategory = "politic";
                 nameOfGroup = "politic";
+                toolBarView.setText("Политика");
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_society:{
                 fMain.nameOfCategory = "society";
+                toolBarView.setText("Общество");
                 nameOfGroup = "society";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
-            case R.id.nav_settings:{
-                nameOfGroup = "main";
+            case R.id.nav_bookmarks:{
+                nameOfGroup = "bookmark";
+                toolBarView.setText("Закладки");
                 Intent intent = new Intent(this, FragmentSettings.class);
                 startActivity(intent);
                 break;
             }
             case R.id.nav_business: {
                 nameOfGroup = "business";
+                toolBarView.setText("Экономика");
                 fMain.nameOfCategory = "business";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_world: {
                 nameOfGroup = "world";
+                toolBarView.setText("Новости мира");
                 fMain.nameOfCategory = "world";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_sport: {
                 nameOfGroup = "sport";
+                toolBarView.setText("Спорт");
                 fMain.nameOfCategory = "sport";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_incident: {
                 nameOfGroup = "incident";
+                toolBarView.setText("Происшествия");
                 fMain.nameOfCategory = "incident";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_culture: {
                 nameOfGroup = "culture";
+                toolBarView.setText("Культура");
                 fMain.nameOfCategory = "culture";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_science: {
                 nameOfGroup = "science";
+                toolBarView.setText("Наука");
                 fMain.nameOfCategory = "science";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_computers: {
                 nameOfGroup = "computers";
+                toolBarView.setText("Компьютерные технологии");
+                toolBarView.setTextSize(20);
                 fMain.nameOfCategory = "computers";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
             }
             case R.id.nav_auto: {
                 nameOfGroup = "auto";
+                toolBarView.setText("Авто");
                 fMain.nameOfCategory = "auto";
                 Ftrans.replace(R.id.content_main, fMain);
                 break;
@@ -187,6 +212,16 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        fMain = new FragmentMain();
+        android.support.v4.app.FragmentTransaction Ftrans = getSupportFragmentManager().beginTransaction();
+        fMain.nameOfCategory = nameOfGroup;
+        Ftrans.replace(R.id.content_main, fMain);
+        Ftrans.commit();
     }
 
 }

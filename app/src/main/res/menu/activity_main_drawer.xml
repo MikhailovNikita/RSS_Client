@@ -4,65 +4,42 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_Main"
-            android:icon="@drawable/ic_menu_camera"
             android:title="@string/main_news" />
         <item
             android:id="@+id/nav_politics"
-            android:icon="@drawable/ic_menu_gallery"
             android:title="@string/politics" />
         <item
             android:id="@+id/nav_society"
-            android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/society" />
         <item
             android:id="@+id/nav_world"
-            android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/world" />
         <item
             android:id="@+id/nav_business"
-            android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/business" />
         <item
             android:id="@+id/nav_sport"
-            android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/sport" />
         <item
             android:id="@+id/nav_incident"
-            android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/incident" />
         <item
             android:id="@+id/nav_culture"
-            android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/culture" />
         <item
             android:id="@+id/nav_science"
-            android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/science" />
         <item
             android:id="@+id/nav_computers"
-            android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/computers" />
         <item
             android:id="@+id/nav_auto"
-            android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/auto" />
         <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/Настройки" />
+            android:id="@+id/nav_bookmarks"
+            android:title="@string/bookmark" />
     </group>
 
-    <item android:title="@string/communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/send" />
-        </menu>
-    </item>
+
 
 </menu>

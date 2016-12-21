@@ -25,7 +25,9 @@ public class SettingActivityForRss extends Activity {
     final String local = "nameOfGroup";
     public String name;
     public static ChanelRss selectedRss = null;
+    ListView rssListView;
     MapDatabase database = MapDatabase.getInstance(this);
+    List<ChanelRss> ListRss;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,14 +55,14 @@ public class SettingActivityForRss extends Activity {
             }
         });
         List<Pair<String, String>> pairOfRss = new ArrayList<>();
-        final List<ChanelRss> ListRss = new ArrayList<>();
+        ListRss = new ArrayList<>();
         try {
             pairOfRss = database.get(db, name);
         } catch (FileNotFoundException e){
             pairOfRss.add(new Pair("no one chanel founded", "no one chanel founded"));
         }
         if (pairOfRss.size() == 0) pairOfRss.add(new Pair("no one chanel founded", "no one chanel founded"));
-        ListView rssListView = (ListView) findViewById(R.id.rssSettingsView);
+        rssListView = (ListView) findViewById(R.id.rssSettingsView);
         rssListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> av, View view, int index,
                                     long arg3) {
@@ -80,5 +82,26 @@ public class SettingActivityForRss extends Activity {
         ArrayAdapter<ChanelRss> adapter = new ArrayAdapter<ChanelRss>(this, R.layout.settings_list_item, ListRss);
         rssListView.setAdapter(adapter);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SQLiteDatabase db = database.getReadableDatabase();
+        List<Pair<String, String>> pairOfRss = new ArrayList<>();
+        ListRss = new ArrayList<>();
+        try {
+            pairOfRss = database.get(db, name);
+        } catch (FileNotFoundException e){
+            pairOfRss.add(new Pair("no one chanel founded", "no one chanel founded"));
+        }
+        for (int i = 0; i < pairOfRss.size(); ++i){
+            ListRss.add(new ChanelRss(pairOfRss.get(i).second, pairOfRss.get(i).first));
+        }
+
+
+        ArrayAdapter<ChanelRss> adapter = new ArrayAdapter<ChanelRss>(this, R.layout.settings_list_item, ListRss);
+        rssListView.setAdapter(adapter);
+    }
+
 
 }

@@ -7,28 +7,29 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="sport">Sport</string>
-    <string name="politics">Politics</string>
-    <string name="main_news">Main news</string>
+    <string name="sport">Спорт</string>
+    <string name="politics">Политика</string>
+    <string name="main_news">Главные новости</string>
     <string name="communicate">Communicate</string>
     <string name="share">Share</string>
     <string name="send">Send</string>
     <string name="Настройки">Настройки</string>
     <string name="Общество">Общество</string>
-    <string name="business">Business></string>
-    <string name="society">Society</string>
-    <string name="world">World</string>
-    <string name="incident">Incident</string>
-    <string name="culture">Culture</string>
-    <string name="science">Science</string>
-    <string name="computers">Computers</string>
-    <string name="auto">Auto</string>
-    <string name="enter_rss_name">Enter rss name</string>
-    <string name="enter_rss">Enter rss</string>
-    <string name="save_changes">save changes</string>
+    <string name="business">Экономика</string>
+    <string name="society">Общество</string>
+    <string name="world">Мир</string>
+    <string name="incident">Происшествия</string>
+    <string name="culture">Культура</string>
+    <string name="science">Наука</string>
+    <string name="computers">Компьютеры</string>
+    <string name="auto">Авто</string>
+    <string name="enter_rss_name">Введи название RSS канала</string>
+    <string name="enter_rss">Введите RSS</string>
+    <string name="save_changes">Сохранить изменения</string>
     <string name="title_activity_add_rss_chanel">AddRssChanel</string>
-    <string name="add_changes">Add changes</string>
+    <string name="add_changes">Добавить изменения</string>
     <string name="More">Подробнее</string>
     <string name="rss_client">Rss Client</string>
     <string name="https_github_com_mikhailovnikita_rss_client">https://github.com/MikhailovNikita/RSS_Client/</string>
+    <string name="bookmark">Закладки</string>
 </resources>

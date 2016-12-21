@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -24,9 +25,12 @@ import java.util.Date;
 import java.util.List;
 
 import ifmo.rain.mikhailov.rss_client.AsyncRSSLoader;
+import ifmo.rain.mikhailov.rss_client.FeedsDatabase;
+import ifmo.rain.mikhailov.rss_client.MainActivity;
 import ifmo.rain.mikhailov.rss_client.MapDatabase;
 import ifmo.rain.mikhailov.rss_client.R;
 import ifmo.rain.mikhailov.rss_client.RSSItem;
+import ifmo.rain.mikhailov.rss_client.initialize.InitializeDatabaseByCommonObject;
 import ifmo.rain.mikhailov.rss_client.settings.AddRssChanel;
 
 /**
@@ -84,6 +88,7 @@ public class FragmentMain extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -97,18 +102,14 @@ public class FragmentMain extends Fragment {
         // Inflate the layout for this fragment
 
         view = inflater.inflate(R.layout.fragmnent_main, container, false);
+        InitializeDatabaseByCommonObject l = new InitializeDatabaseByCommonObject(FragmentMain.this.getContext(), nameOfCategory);
+        l.checkThisGroup();
         MapDatabase database = MapDatabase.getInstance(this.getContext());
         SQLiteDatabase db = database.getReadableDatabase();
         final Spinner spinner = (Spinner)view.findViewById(R.id.spinner);
         List<Pair<String, String>> pairsOfRss = new ArrayList<>();
         try {
             pairsOfRss = database.get(db, nameOfCategory);
-            if (pairsOfRss.size() == 0){
-                db = database.getWritableDatabase();
-                database.put(db, nameOfCategory, "https://news.yandex.ru/index.rss", "Yandex News");
-                pairsOfRss.add(new Pair("https://news.yandex.ru/index.rss", "Yandex News"));
-                db = database.getReadableDatabase();
-            }
         } catch (FileNotFoundException e){
             pairsOfRss.add(new Pair("no one chanel founded", "no one chanel founded"));
         }
@@ -163,24 +164,34 @@ public class FragmentMain extends Fragment {
 
         final ArrayList<RSSItem> newItems = new ArrayList<>();
 
+        FeedsDatabase databaseOfFeed = FeedsDatabase.getInstance(FragmentMain.this.getContext());
+        SQLiteDatabase db = databaseOfFeed.getReadableDatabase();
+        try {
+            rssItems = databaseOfFeed.get(db, feedUrl);
+            Log.d("Catch BD", String.valueOf(rssItems.size()));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            rssItems = new ArrayList<>();
+            //rssItems.add(new RSSItem("0", "0", new Date(), "0"));
+        }
+        if (rssItems.size()==0) {
+            AsyncRSSLoader asyncLoader = new AsyncRSSLoader(new AsyncRSSLoader.AsyncResponse() {
+                @Override
+                public void processFinish(ArrayList<RSSItem> list) {
+                    Log.d("GACHI", list.size() + " ");
+                    rssItems.clear();
+                    rssItems.addAll(list);
+                    aa.notifyDataSetChanged();
+                    FeedsDatabase databaseOfFeed = FeedsDatabase.getInstance(FragmentMain.this.getContext());
+                    SQLiteDatabase db = databaseOfFeed.getReadableDatabase();
+                    for (int i = 0; i < rssItems.size(); ++i) {
+                        databaseOfFeed.put(db, rssItems.get(i), feedUrl, nameOfCategory);
+                    }
+                }
+            });
+            asyncLoader.execute(feedUrl);
+        }
 
-        newItems.add(new RSSItem("title","description GIGALUL", new Date(), "link"));
-        newItems.add(new RSSItem("title","description MEGALUL", new Date(), "link"));
-
-        AsyncRSSLoader asyncLoader = new AsyncRSSLoader(new AsyncRSSLoader.AsyncResponse() {
-            @Override
-            public void processFinish(ArrayList<RSSItem> list) {
-                Log.d("GACHI", list.size() + " ");
-                rssItems.clear();
-                rssItems.addAll(list);
-
-                aa.notifyDataSetChanged();
-            }
-        });
-
-
-        //TODO: add progress bar
-        asyncLoader.execute(feedUrl);
 
     }
 
