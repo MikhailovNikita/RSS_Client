@@ -31,21 +31,37 @@ public class MainActivity extends AppCompatActivity
 
     public FragmentMain fMain;
     public SettingsOfRssChanel fSettings;
-    public String nameOfGroup;
+    public String nameOfGroup = null;
     public static ArrayOfRss globalRssChanel = new ArrayOfRss();
     final String local = "nameOfGroup";
+
+    private static final String KEY_OF_GROUP = "KEY_OF_GROUP";
+
+    @Override
+    public void onSaveInstanceState(Bundle saveInstanceState) {
+        saveInstanceState.putString(KEY_OF_GROUP, nameOfGroup);
+        super.onSaveInstanceState(saveInstanceState);
+    }
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        nameOfGroup = savedInstanceState.getString(KEY_OF_GROUP);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        nameOfGroup = "main";
+        if (nameOfGroup == null) nameOfGroup = "main";
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         InitializeDatabaseByCommonObject l = new InitializeDatabaseByCommonObject(MainActivity.this, nameOfGroup);
         l.checkThisGroup();
         FeedsDatabase dbHelper = FeedsDatabase.getInstance(this);
         SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
+        MapDatabase mapDbHelper = MapDatabase.getInstance(this);
+        SQLiteDatabase sqLiteDatabaseMap = dbHelper.getWritableDatabase();
 
         startService(new Intent(MainActivity.this, BackgroundDownloadService.class));
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

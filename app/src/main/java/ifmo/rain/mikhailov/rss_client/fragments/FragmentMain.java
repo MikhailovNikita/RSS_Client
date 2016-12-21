@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -191,7 +192,7 @@ public class FragmentMain extends Fragment {
             });
             asyncLoader.execute(feedUrl);
         }
-
+        Collections.reverse(rssItems);
 
     }
 

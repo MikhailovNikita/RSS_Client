@@ -48,21 +48,20 @@ public class InitializeDatabaseByCommonObject {
             case ("main"):{
                 database.put(db, nameOfGroup, "https://news.yandex.ru/index.rss", "Yandex");
                 database.put(db, nameOfGroup, "https://tjournal.ru/rss", "TJ");
-
                 database.put(db, nameOfGroup, "https://lenta.ru/rss/top7", "Lenta");
                 database.put(db, nameOfGroup, "http://www.kommersant.ru/RSS/main.xml", "Коммерсант");
                 database.put(db, nameOfGroup, "https://meduza.io/rss/all", "Meduza");
                 break;
             }
             case ("politic"):{
-                database.put(db, nameOfGroup, "http://lenta.ru/rss/news/world", "Lenta");
+                database.put(db, nameOfGroup, "https://lenta.ru/rss/news/world", "Lenta");
                 database.put(db, nameOfGroup, "https://news.yandex.ru/politics.rss", "Yandex");
-                database.put(db, nameOfGroup, "https://www.kommersant.ru/RSS/weekly.xml", "Коммерсант");
+                database.put(db, nameOfGroup, "http://www.kommersant.ru/RSS/weekly.xml", "Коммерсант");
 
                 break;
             }
             case ("society"):{
-                database.put(db, nameOfGroup, "http://lenta.ru/rss/news/style", "Lenta");
+                database.put(db, nameOfGroup, "https://lenta.ru/rss/news/style", "Lenta");
                 database.put(db, nameOfGroup, "https://news.yandex.ru/society.rss", "Yandex");
                 database.put(db, nameOfGroup, "https://www.kommersant.ru/RSS/section-society.xml", "Коммерсант");
                 break;
@@ -84,7 +83,7 @@ public class InitializeDatabaseByCommonObject {
                 database.put(db, nameOfGroup, "http://www.kommersant.ru/RSS/section-sport.xml", "Коммерсант");
                 break;
             }case ("incident"):{
-                database.put(db, nameOfGroup, "http://lenta.ru/rss/news/media", "Lenta");
+                database.put(db, nameOfGroup, "https://lenta.ru/rss/news/media", "Lenta");
                 database.put(db, nameOfGroup, "https://news.yandex.ru/incident.rss", "Yandex");
                 database.put(db, nameOfGroup, "http://www.kommersant.ru/RSS/section-accidents.xml", "Коммерсант");
                 break;
