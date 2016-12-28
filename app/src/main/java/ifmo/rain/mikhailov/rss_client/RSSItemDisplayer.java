@@ -90,7 +90,6 @@ public class RSSItemDisplayer extends Activity {
         fab3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // --TODO ADD TO BOOKMARKS
                 FloatingActionButton v = (FloatingActionButton) view;
                 FeedsDatabase databaseOfFeed = FeedsDatabase.getInstance(RSSItemDisplayer.this);
                 SQLiteDatabase db = databaseOfFeed.getWritableDatabase();

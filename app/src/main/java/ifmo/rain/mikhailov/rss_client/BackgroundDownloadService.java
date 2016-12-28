@@ -65,7 +65,7 @@ public class BackgroundDownloadService extends Service {
         }
 
 
-        timer.schedule(new DownloadTimerTask(links), 0, 20_000);
+        timer.schedule(new DownloadTimerTask(links), 0, 200_000);
     }
 
     public class DownloadTimerTask extends TimerTask {

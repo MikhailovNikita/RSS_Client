@@ -11,14 +11,30 @@
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:visibility="invisible"
+        android:layout_height="wrap_content"/>
+
 
 
 
     <ListView
-        android:id="@+id/rssListView"
+        android:id="@+id/rssListView1"
         android:layout_width="fill_parent"
+        android:visibility="invisible"
         android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rssListView">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
 </LinearLayout>

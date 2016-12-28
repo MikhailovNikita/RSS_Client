@@ -1,10 +1,12 @@
 package ifmo.rain.mikhailov.rss_client.fragments;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -45,10 +48,10 @@ public class FragmentMain extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    AssyncUpdateFragments catTask;
     public static RSSItem selectedRssItem = null;
     String feedUrl;
-    ListView rssListView = null;
+    RecyclerView rssListView = null;
     ArrayList<RSSItem> rssItems = new ArrayList<>();
     ArrayAdapter<RSSItem> arrayAdapter;
     public String nameOfCategory;
@@ -100,12 +103,40 @@ public class FragmentMain extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         view = inflater.inflate(R.layout.fragmnent_main, container, false);
-        InitializeDatabaseByCommonObject l = new InitializeDatabaseByCommonObject(FragmentMain.this.getContext(), nameOfCategory);
+        rssListView = (RecyclerView) view.findViewById(R.id.rssListView);
+        Spinner spinner = (Spinner)view.findViewById(R.id.spinner);
+        ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        spinner.setVisibility(spinner.INVISIBLE);
+        rssListView.setVisibility(rssListView.INVISIBLE);
+        progressBar.setVisibility(ProgressBar.VISIBLE);
+        return view;
+    }
+
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        catTask = new AssyncUpdateFragments(nameOfCategory, FragmentMain.this.getContext(), view);
+        catTask.execute();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("KAPPA", "PRIDE");
+
+
+        /*InitializeDatabaseByCommonObject l = new InitializeDatabaseByCommonObject(FragmentMain.this.getContext(), nameOfCategory);
         l.checkThisGroup();
         MapDatabase database = MapDatabase.getInstance(this.getContext());
         SQLiteDatabase db = database.getReadableDatabase();
@@ -139,6 +170,8 @@ public class FragmentMain extends Fragment {
         });
 
 
+
+
         refreshRSSList();
         Log.d("BUTTON", feedUrl);
         Log.d("BUTTON", "Let's load some news");
@@ -155,13 +188,12 @@ public class FragmentMain extends Fragment {
             }
         });
 
-        ViewList(view);
-        return view;
+        ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(ProgressBar.INVISIBLE);
+        */
     }
-    private void ViewList(View view){
-        arrayAdapter = new ArrayAdapter<RSSItem>(view.getContext(), R.layout.list_item, rssItems);
-        rssListView.setAdapter(arrayAdapter);
-    }
+
+
 
 
     private void refreshRSSList() {
@@ -211,6 +243,7 @@ public class FragmentMain extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        catTask.cancel(true);
         mListener = null;
     }
 
