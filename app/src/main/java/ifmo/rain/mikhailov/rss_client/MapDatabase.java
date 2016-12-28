@@ -216,12 +216,12 @@ public class MapDatabase extends SQLiteOpenHelper {
     }
 
     public String getChannelNameByLink(SQLiteDatabase sqLiteDatabase, String link) {
-        String response = "garbage";
+        String response = "RSS update";
         Cursor cursor= null;
 
         try {
-            cursor = sqLiteDatabase.query(TABLE_NAME, new String[]{RSS_CATEGORY},
-                    RSS_NAME + " = ?", new String[]{link}, null, null, null);
+            cursor = sqLiteDatabase.query(TABLE_NAME, new String[]{RSS_NAME},
+                    RSS_LINK + " = ?", new String[]{link}, null, null, null);
 
             if(cursor != null && cursor.moveToFirst()){
                 response = cursor.getString(0);
