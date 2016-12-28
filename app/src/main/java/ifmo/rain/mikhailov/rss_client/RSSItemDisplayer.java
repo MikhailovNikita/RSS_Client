@@ -47,6 +47,7 @@ public class RSSItemDisplayer extends Activity {
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+
         String title = savedInstanceState.getString(KEY_OF_TITLE);
         String date = savedInstanceState.getString(KEY_OF_DATA);
         String description = savedInstanceState.getString(KEY_OF_DESCRIPTION);
@@ -70,6 +71,13 @@ public class RSSItemDisplayer extends Activity {
                 name = extras.getString("nameOfFragment");
             }
         } else {
+            if (savedInstanceState.containsKey(KEY_OF_TITLE)) {
+                String title = savedInstanceState.getString(KEY_OF_TITLE);
+                String date = savedInstanceState.getString(KEY_OF_DATA);
+                String description = savedInstanceState.getString(KEY_OF_DESCRIPTION);
+                String link = savedInstanceState.getString(KEY_OF_LINK);
+                selectedRssItemloc = new RSSItem(title, description, new Date(date), link);
+            }
             name = (String) savedInstanceState.getSerializable("nameOfFragment");
         }
         if (name != null) {
@@ -81,8 +89,10 @@ public class RSSItemDisplayer extends Activity {
         } else {
             selectedRssItemLocal = null;
         }
-        if (selectedRssItemloc != null) selectedRssItemLocal = selectedRssItemloc;
+
+        if (selectedRssItemLocal == null) selectedRssItemLocal = selectedRssItemloc;
         final RSSItem selectedRssItem = selectedRssItemLocal;
+        if  (selectedRssItem==null) selectedRssItemloc = selectedRssItem;
         selectedRssItemloc = selectedRssItem;
         TextView titleView = (TextView) findViewById(R.id.titleTextView);
         TextView contentView = (TextView) findViewById(R.id.contentTextView);

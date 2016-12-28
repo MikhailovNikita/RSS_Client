@@ -57,7 +57,6 @@ class AssyncUpdateFragments extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPreExecute() {
-
         super.onPreExecute();
     }
 
@@ -169,16 +168,14 @@ class AssyncUpdateFragments extends AsyncTask<Void, Void, Void> {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             rssItems = new ArrayList<>();
-            //rssItems.add(new RSSItem("0", "0", new Date(), "0"));
         }
-        if (rssItems.size()==0) {
+       /* if (rssItems.size()==0) {
             AsyncRSSLoader asyncLoader = new AsyncRSSLoader(new AsyncRSSLoader.AsyncResponse() {
                 @Override
                 public void processFinish(ArrayList<RSSItem> list) {
                     Log.d("GACHI", list.size() + " ");
                     rssItems.clear();
                     rssItems.addAll(list);
-                    //arrayAdapter.notifyDataSetChanged();
                     FeedsDatabase databaseOfFeed = FeedsDatabase.getInstance(context);
                     SQLiteDatabase db = databaseOfFeed.getReadableDatabase();
                     for (int i = 0; i < rssItems.size(); ++i) {
@@ -187,7 +184,7 @@ class AssyncUpdateFragments extends AsyncTask<Void, Void, Void> {
                 }
             });
             asyncLoader.execute(feedUrl);
-        }
+        }*/
         Collections.reverse(rssItems);
 
     }
