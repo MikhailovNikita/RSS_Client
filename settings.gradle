@@ -1,1 +1,1 @@
-include ':app'
+exclude ':app'
