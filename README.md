@@ -11,6 +11,7 @@ Simple and convenient RSS-client for reading your favorite news feeds.
 6. Save your changes.
 7. ???
 8. PROFIT
+9. А в чем профит?
 
 Your news will be updated in the background even if you turn off the application.
 If you want to be notified about the news of a feed, just add it to the "Top Stories" category.
