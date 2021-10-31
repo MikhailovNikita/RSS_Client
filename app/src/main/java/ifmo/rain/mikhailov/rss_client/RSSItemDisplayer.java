@@ -92,7 +92,7 @@ public class RSSItemDisplayer extends Activity {
 
         if (selectedRssItemLocal == null) selectedRssItemLocal = selectedRssItemloc;
         final RSSItem selectedRssItem = selectedRssItemLocal;
-        if  (selectedRssItem==null) selectedRssItemloc = selectedRssItem;
+        if (selectedRssItem == null) selectedRssItemloc = selectedRssItem;
         selectedRssItemloc = selectedRssItem;
         TextView titleView = (TextView) findViewById(R.id.titleTextView);
         TextView contentView = (TextView) findViewById(R.id.contentTextView);
@@ -125,6 +125,4 @@ public class RSSItemDisplayer extends Activity {
                 Intent(Intent.ACTION_VIEW, Uri.parse(link));
         startActivity(browserIntent);
     }
-
-
 }
